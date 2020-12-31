@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cryptovip", "cryptovip\cryptovip.csproj", "{6918AFAB-CE44-4518-97E4-A6E61DB167E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "crytopVipDb", "crytopVipDb\crytopVipDb.csproj", "{218371E1-912A-4D9A-8BF8-74A77E0E74BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6918AFAB-CE44-4518-97E4-A6E61DB167E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6918AFAB-CE44-4518-97E4-A6E61DB167E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6918AFAB-CE44-4518-97E4-A6E61DB167E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6918AFAB-CE44-4518-97E4-A6E61DB167E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{218371E1-912A-4D9A-8BF8-74A77E0E74BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{218371E1-912A-4D9A-8BF8-74A77E0E74BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{218371E1-912A-4D9A-8BF8-74A77E0E74BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{218371E1-912A-4D9A-8BF8-74A77E0E74BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1964F805-CD72-4700-8D79-1C4EA946B97F}
+	EndGlobalSection
+EndGlobal
