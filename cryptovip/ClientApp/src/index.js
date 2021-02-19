@@ -1,18 +1,31 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { createBrowserHistory } from "history";
+import { Router, Route, Switch } from "react-router-dom";
 
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const rootElement = document.getElementById('root');
+import "assets/scss/material-kit-react.scss?v=1.9.0";
+
+// pages for this product
+import LandingPage from "views/LandingPage/LandingPage.js";
+import ProfilePage from "views/ProfilePage/ProfilePage.js";
+import LoginPage from "views/LoginPage/LoginPage.js";
+import SignupPage from "views/SignupPage/SignupPage.js";
+import PrivacyPolicy from "views/PrivacyPolicy/PrivacyPolicy.js";
+import TermsConditions from "views/TermsCondition/TermsCondition.js";
+
+var hist = createBrowserHistory();
 
 ReactDOM.render(
-  <BrowserRouter basename={baseUrl}>
-    <App />
-  </BrowserRouter>,
-  rootElement);
-
-registerServiceWorker();
-
+  <Router history={hist}>
+    <Switch>
+      <Route path="/landing-page" component={LandingPage} />
+      <Route path="/profile-page" component={ProfilePage} />
+      <Route path="/login-page" component={LoginPage} />
+      <Route path="/signup-page" component={SignupPage} />
+      <Route path="/privacypolicy-page" component={PrivacyPolicy} />
+      <Route path="/termsconditions-page" component={TermsConditions} /> 
+      <Route path="/" component={LandingPage} />
+    </Switch>
+  </Router>,
+  document.getElementById("root")
+);
