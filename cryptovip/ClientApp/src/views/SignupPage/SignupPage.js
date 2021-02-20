@@ -18,10 +18,12 @@ import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import {Link} from 'react-router-dom' ;
-
+import classNames from "classnames";
 import image from "assets/img/bgl.jpg";
 
 const useStyles = makeStyles(styles);
@@ -32,11 +34,22 @@ export default function LoginPage(props) {
     setCardAnimation("");
   }, 700);
   const [state, setState] = React.useState(false);
+
+  
+
+  const [formData, setFormData] = React.useState({});
+
   const classes = useStyles();
   const setOpen = ()=>{
     setState(!state);
   }
   const { ...rest } = props;
+
+  const UpdateFormData = (e) =>{
+    debugger;
+
+  };
+
   return (
     <div>
       <Header
@@ -95,9 +108,33 @@ export default function LoginPage(props) {
                   </CardHeader>
                   <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
+                  <FormControl fullWidth className={formControlClasses}>                    
+                      <InputLabel
+                        className={classes.labelRoot }
+                        htmlFor="firstName"
+                      >
+                        First Name...
+                      </InputLabel>
+                    <Input
+                      classes={{
+                        input: inputClasses,
+                        root: marginTop,
+                        disabled: classes.disabled,
+                        underline: underlineClasses
+                      }}
+                      id="firstName"
+                      type= "text"
+                        endAdornment= {
+                          <InputAdornment position="end">
+                            <People className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        }
+                        required
+                    />
+                  </FormControl>
                     <CustomInput
                       labelText="First Name..."
-                      id="first"
+                      id="firstName"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -108,7 +145,8 @@ export default function LoginPage(props) {
                             <People className={classes.inputIconsColor} />
                           </InputAdornment>
                         ),
-                        required: true
+                        required: true,
+                        onChange:{}
                       }}
                     />
                     <CustomInput
@@ -191,7 +229,7 @@ export default function LoginPage(props) {
                     </label>
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button type="submit" simple color="primary" size="lg">
                       Signup
                     </Button>
                   </CardFooter>
