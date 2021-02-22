@@ -13,7 +13,8 @@ namespace cryptovip
     {
         public static UserProfileModel Signin(UserModel user, DBContext dBContext)
         {
-            User _user = dBContext.Users.Where(x => x.UserName == user.Email && x.Password == user.Password)
+            string password = user.GetPassword();
+            User _user = dBContext.Users.Where(x => x.UserName == user.Email && x.Password == user.GetPassword())
                 .Include(x => x.UserProfile).FirstOrDefault();
             if(_user != null)
             {
@@ -28,5 +29,7 @@ namespace cryptovip
             dBContext.SaveChanges();
             return (UserProfileModel)dBContext.UserProfiles.Where(x => x.UserName == user.Email).FirstOrDefault();
         }
+
+
     }
 }

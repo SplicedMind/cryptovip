@@ -18,13 +18,11 @@ import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import {Link} from 'react-router-dom' ;
-import classNames from "classnames";
 import image from "assets/img/bgl.jpg";
+
+import axios from "axios";
 
 const useStyles = makeStyles(styles);
 
@@ -34,11 +32,9 @@ export default function LoginPage(props) {
     setCardAnimation("");
   }, 700);
   const [state, setState] = React.useState(false);
-
-  
-
   const [formData, setFormData] = React.useState({});
-
+  const [disabled, setDisabled] = React.useState({disabled:false});
+  
   const classes = useStyles();
   const setOpen = ()=>{
     setState(!state);
@@ -46,9 +42,29 @@ export default function LoginPage(props) {
   const { ...rest } = props;
 
   const UpdateFormData = (e) =>{
-    debugger;
-
+    switch(e.target.type){
+      case "text":
+      case"password":
+        formData[e.target.id] = e.target.value;
+        break;
+      case "checkbox":
+        formData[e.target.id] = e.target.checked;
+        setDisabled({disabled : !formData["terms"]});
+        break;
+    }    
+    setFormData(formData);
   };
+
+  const SubmitForm = (e) => {
+    debugger;
+    e.preventDefault();
+    axios.post("https://localhost:44305/api/user/signup",JSON.stringify(formData)).then((res)=>{
+      debugger;
+    },
+    (err)=>{
+      debugger;
+    });
+  }
 
   return (
     <div>
@@ -108,35 +124,12 @@ export default function LoginPage(props) {
                   </CardHeader>
                   <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
-                  <FormControl fullWidth className={formControlClasses}>                    
-                      <InputLabel
-                        className={classes.labelRoot }
-                        htmlFor="firstName"
-                      >
-                        First Name...
-                      </InputLabel>
-                    <Input
-                      classes={{
-                        input: inputClasses,
-                        root: marginTop,
-                        disabled: classes.disabled,
-                        underline: underlineClasses
-                      }}
-                      id="firstName"
-                      type= "text"
-                        endAdornment= {
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        }
-                        required
-                    />
-                  </FormControl>
                     <CustomInput
                       labelText="First Name..."
                       id="firstName"
+                      
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true                        
                       }}
                       inputProps={{
                         type: "text",
@@ -146,12 +139,13 @@ export default function LoginPage(props) {
                           </InputAdornment>
                         ),
                         required: true,
-                        onChange:{}
+                        onChange: UpdateFormData,
+                        value: formData["firstName"]
                       }}
                     />
                     <CustomInput
                       labelText="Last Name..."
-                      id="last"
+                      id="lastName"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -162,7 +156,9 @@ export default function LoginPage(props) {
                             <People className={classes.inputIconsColor} />
                           </InputAdornment>
                         ),
-                        required:true
+                        required:true,
+                        onChange: UpdateFormData,
+                        value: formData["lastName"]
                       }}
                     />
                     <CustomInput
@@ -178,12 +174,14 @@ export default function LoginPage(props) {
                             <Email className={classes.inputIconsColor} />
                           </InputAdornment>
                         ),
-                        required:true
+                        required:true,
+                        onChange: UpdateFormData,
+                        value: formData["email"]
                       }}
                     />
                     <CustomInput
                       labelText="Password"
-                      id="pass"
+                      id="password"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -197,12 +195,14 @@ export default function LoginPage(props) {
                           </InputAdornment>
                         ),
                         autoComplete: "off",
-                        required:true
+                        required:true,
+                        onChange: UpdateFormData,
+                        value: formData["password"]
                       }}
                     />
                     <CustomInput
                       labelText="Re-Type Password"
-                      id="pass"                     
+                      id="repassword"                     
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -216,11 +216,13 @@ export default function LoginPage(props) {
                           </InputAdornment>
                         ),
                         autoComplete: "off",
-                        required:true
+                        required:true,
+                        onChange: UpdateFormData,
+                        value: formData["repassword"]
                       }}
                     />
                     <label>
-                      <input id="terms" type="checkbox" required/>
+                      <input id="terms" type="checkbox" required onChange={UpdateFormData} value={formData["terms"]}/>
                       <small>I accept Crypto Vault Investment 
                         <Link to="/termsconditions-page" rel="noopener noreferrer" target="_blank" style={{marginLeft:"2px"}}>
                           Terms & Conditions
@@ -229,7 +231,7 @@ export default function LoginPage(props) {
                     </label>
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button type="submit" simple color="primary" size="lg">
+                    <Button type="submit" simple color="primary" size="lg" onClick={SubmitForm} {...disabled}>
                       Signup
                     </Button>
                   </CardFooter>

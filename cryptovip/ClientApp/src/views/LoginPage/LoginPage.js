@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -21,12 +21,16 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bgl.jpg";
+import axios from "axios";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [state, setState] = React.useState(false);
+  const [formData, setFormData] = React.useState({});
+
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
@@ -35,6 +39,44 @@ export default function LoginPage(props) {
   const setOpen = ()=>{
     setState(!state);
   }
+
+  const UpdateFormData = (e) =>{
+    switch(e.target.type){
+      case "email":
+      case"password":
+        formData[e.target.id] = e.target.value;
+        break;
+      case "checkbox":
+        formData[e.target.id] = e.target.checked;
+        break;
+    }    
+    setFormData(formData);
+  };
+
+  const SubmitForm = (e) => {
+    debugger;
+    e.preventDefault();
+    axios(            
+      {
+          method:'post',
+          url:"https://localhost:44305/api/user/login",
+          headers:{
+              'Content-Type': 'application/json'                             
+          },
+          data: JSON.stringify(formData)                                            
+      })      
+      .then(
+          (result) => {
+            debugger;
+            sessionStorage.setItem("user",JSON.stringify(result.data))
+            history.push("/profile-page");
+          },
+          (error) => {
+            debugger;
+      })   
+  }
+
+  const history = useHistory();
   
   const { ...rest } = props;
   return (
@@ -104,6 +146,7 @@ export default function LoginPage(props) {
                       }}
                       inputProps={{
                         type: "email",
+                        onChange:UpdateFormData,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputIconsColor} />
@@ -113,12 +156,13 @@ export default function LoginPage(props) {
                     />
                     <CustomInput
                       labelText="Password"
-                      id="pass"
+                      id="password"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
                         type: "password",
+                        onChange:UpdateFormData,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -131,7 +175,7 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button simple type="submit" color="primary" size="lg" onClick={SubmitForm}>
                       Login
                     </Button>
                   </CardFooter>

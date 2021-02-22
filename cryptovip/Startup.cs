@@ -31,7 +31,9 @@ namespace cryptovip
             services.Configure<AppData>(appDataConfigSection);
             services.AddControllersWithViews();
             services.AddDbContext<DBContext>(opt => opt.UseSqlServer(appData.ConnectionString));
+            services.AddScoped<AppData>();
             services.AddScoped<ResponseModel>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
 
             services.AddAuthentication(au =>
             {
@@ -45,7 +47,7 @@ namespace cryptovip
                     jwt.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(((AppData)appData).AuthKey)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appData.AuthKey)),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateLifetime = true

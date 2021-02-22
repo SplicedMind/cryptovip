@@ -21,6 +21,8 @@ namespace cryptovip.Models
             _appData = appData;
         }
 
+        public AuthenticateService() { }
+
         public UserProfileModel Authenticate(UserModel user)
         {
             UserProfileModel _user = Util.Signin(user, _dBcontext);
