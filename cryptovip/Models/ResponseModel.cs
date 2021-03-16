@@ -7,7 +7,7 @@ namespace cryptovip.Models
 {
     public class ResponseModel
     {
-        public bool Success => !string.IsNullOrWhiteSpace(Error);
+        public bool Success => string.IsNullOrWhiteSpace(Error);
         public string Error { get; set; } = string.Empty;
         public object Value { get; set; }
     }

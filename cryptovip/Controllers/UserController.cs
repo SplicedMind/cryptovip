@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using cryptovip.Models;
-using crytopVipDb;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -32,6 +26,18 @@ namespace cryptovip.Controllers
             _appData = _configuration.GetSection("AppData").Get<AppData>();
         }
 
+        [HttpGet("get")]
+        public ActionResult Test()
+        {
+            return Ok("test successful");
+        }
+
+        [HttpPost("post")]
+        public ActionResult Post(UserModel user)
+        {
+            return Ok(user);
+        }
+
         [HttpPost("signup")]
         public ActionResult CreateUser(UserModel user)
         {
@@ -46,7 +52,11 @@ namespace cryptovip.Controllers
                 {
                     _responseModel.Error = ex.Message;
                     _responseModel.Value = ex;
-                }                
+                }
+            }
+            else
+            {
+                return BadRequest();
             }
             return Ok(_responseModel);
         }
@@ -60,6 +70,10 @@ namespace cryptovip.Controllers
                 {
                     UserProfileModel userProfile = Authenticate(user);
                     _responseModel.Value = userProfile;
+                    if (_responseModel.Value == null)
+                    {
+                        _responseModel.Error = "Login failed! Email or password is not correct";
+                    }
                 }
                 catch (Exception ex)
                 {

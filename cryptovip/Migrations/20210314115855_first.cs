@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using MySql.EntityFrameworkCore.Metadata;
 
-namespace crytopVipDb.Migrations
+namespace cryptovip.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,9 +12,9 @@ namespace crytopVipDb.Migrations
                 name: "SecurityQuestions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Question = table.Column<string>(nullable: true)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Question = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -24,9 +25,8 @@ namespace crytopVipDb.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserName = table.Column<string>(nullable: false),
-                    Id = table.Column<long>(nullable: false),
-                    Password = table.Column<string>(nullable: true)
+                    UserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,15 +37,16 @@ namespace crytopVipDb.Migrations
                 name: "UserProfiles",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    LastName = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    MiddleName = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    VIPAccountNumber = table.Column<string>(nullable: true),
-                    ProfileImage = table.Column<byte[]>(nullable: true),
-                    UserName = table.Column<string>(nullable: true)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    LastName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    FirstName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    MiddleName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime", nullable: false),
+                    VIPAccountNumber = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    ProfileImage = table.Column<byte[]>(type: "varbinary(4000)", nullable: true),
+                    Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    UserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,24 +63,25 @@ namespace crytopVipDb.Migrations
                 name: "UserSecurityQuestionAnswers",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Answer = table.Column<string>(nullable: true),
-                    SecurityQuestionId = table.Column<long>(nullable: false),
-                    UserName = table.Column<string>(nullable: true)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Answer = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    SecurityQuestionId = table.Column<long>(type: "bigint", nullable: false),
+                    UserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    UserName1 = table.Column<string>(type: "varchar(50)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserSecurityQuestionAnswers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserSecurityQuestionAnswers_SecurityQuestions_SecurityQuestionId",
+                        name: "FK_UserSecurityQuestionAnswers_SecurityQuestions_SecurityQuesti~",
                         column: x => x.SecurityQuestionId,
                         principalTable: "SecurityQuestions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserSecurityQuestionAnswers_Users_UserName",
-                        column: x => x.UserName,
+                        name: "FK_UserSecurityQuestionAnswers_Users_UserName1",
+                        column: x => x.UserName1,
                         principalTable: "Users",
                         principalColumn: "UserName",
                         onDelete: ReferentialAction.Restrict);
@@ -89,8 +91,7 @@ namespace crytopVipDb.Migrations
                 name: "IX_UserProfiles_UserName",
                 table: "UserProfiles",
                 column: "UserName",
-                unique: true,
-                filter: "[UserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserSecurityQuestionAnswers_SecurityQuestionId",
@@ -98,9 +99,9 @@ namespace crytopVipDb.Migrations
                 column: "SecurityQuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSecurityQuestionAnswers_UserName",
+                name: "IX_UserSecurityQuestionAnswers_UserName1",
                 table: "UserSecurityQuestionAnswers",
-                column: "UserName");
+                column: "UserName1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

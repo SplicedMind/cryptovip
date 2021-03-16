@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,10 +29,14 @@ namespace cryptovip
 
             services.Configure<AppData>(appDataConfigSection);
             services.AddControllersWithViews();
-            services.AddDbContext<DBContext>(opt => opt.UseSqlServer(appData.ConnectionString));
+            services.AddDbContext<DBContext>();
             services.AddScoped<AppData>();
             services.AddScoped<ResponseModel>();
             services.AddScoped<IAuthenticateService, AuthenticateService>();
+            services.AddControllersWithViews()
+                    .AddNewtonsoftJson(options =>
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
 
             services.AddAuthentication(au =>
             {
@@ -76,6 +79,7 @@ namespace cryptovip
             }
 
             app.UseHttpsRedirection();
+            app.UseCors();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 

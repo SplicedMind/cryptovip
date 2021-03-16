@@ -16,6 +16,7 @@ namespace cryptovip.Models
         public string VIPAccountNumber { get; set; }
         public byte[] ProfileImage { get; set; }
         public string UserName { get; set; }
+        public string ReferralUserName { get; set; }
         public bool Enabled { get; set; }
         public string Token { get; set; }
                 

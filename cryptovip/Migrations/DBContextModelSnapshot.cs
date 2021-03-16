@@ -2,34 +2,30 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using crytopVipDb;
+using cryptovip;
 
-namespace crytopVipDb.Migrations
+namespace cryptovip.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20201224215346_InitialMigration")]
-    partial class InitialMigration
+    partial class DBContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "5.0.4");
 
             modelBuilder.Entity("crytopVipDb.Entities.SecurityQuestion", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Question")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.HasKey("Id");
 
@@ -39,13 +35,13 @@ namespace crytopVipDb.Migrations
             modelBuilder.Entity("crytopVipDb.Entities.User", b =>
                 {
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.HasKey("UserName");
 
@@ -56,35 +52,43 @@ namespace crytopVipDb.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("MiddleName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<byte[]>("ProfileImage")
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("varbinary(4000)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("VIPAccountNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserName")
-                        .IsUnique()
-                        .HasFilter("[UserName] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("UserProfiles");
                 });
@@ -93,23 +97,27 @@ namespace crytopVipDb.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Answer")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<long>("SecurityQuestionId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("UserName1")
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SecurityQuestionId");
 
-                    b.HasIndex("UserName");
+                    b.HasIndex("UserName1");
 
                     b.ToTable("UserSecurityQuestionAnswers");
                 });
@@ -118,8 +126,9 @@ namespace crytopVipDb.Migrations
                 {
                     b.HasOne("crytopVipDb.Entities.User", "User")
                         .WithOne("UserProfile")
-                        .HasForeignKey("crytopVipDb.Entities.UserProfile", "UserName")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("crytopVipDb.Entities.UserProfile", "UserName");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("crytopVipDb.Entities.UserSecurityQuestionAnswer", b =>
@@ -127,13 +136,28 @@ namespace crytopVipDb.Migrations
                     b.HasOne("crytopVipDb.Entities.SecurityQuestion", "SecurityQuestion")
                         .WithMany("UserSecurityQuestionAnswers")
                         .HasForeignKey("SecurityQuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("crytopVipDb.Entities.User", "User")
                         .WithMany("UserSecurityQuestionAnswers")
-                        .HasForeignKey("UserName")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("UserName1");
+
+                    b.Navigation("SecurityQuestion");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("crytopVipDb.Entities.SecurityQuestion", b =>
+                {
+                    b.Navigation("UserSecurityQuestionAnswers");
+                });
+
+            modelBuilder.Entity("crytopVipDb.Entities.User", b =>
+                {
+                    b.Navigation("UserProfile");
+
+                    b.Navigation("UserSecurityQuestionAnswers");
                 });
 #pragma warning restore 612, 618
         }

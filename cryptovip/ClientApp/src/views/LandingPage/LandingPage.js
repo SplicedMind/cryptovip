@@ -27,6 +27,7 @@ const useStyles = makeStyles(styles);
 export default function LandingPage(props) {  
   const [state, setState] = React.useState(false);
   const classes = useStyles();
+  const classes = useStyles();
   
   const setOpen = ()=>{
     setState(!state);
