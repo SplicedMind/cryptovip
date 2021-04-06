@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Spinner from "react-bootstrap/Spinner";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -21,86 +22,16 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import { Link } from 'react-router-dom';
 import image from "assets/img/bgl.jpg";
-
-import axios from "components/AxiosInstance/AxiosInstance.js";
-import SnackbarContent from "components/Snackbar/SnackbarContent.js";
-import Check from "@material-ui/icons/Check";
+import SnackbarContent from "components/Snackbar/SnackbarContent";
 
 const useStyles = makeStyles(styles);
 
-export default function LoginPage(props) {
+const SignUpPage = ({form:{onChange, form, formValid, onSubmit, loading, fieldErrors, data}})  =>{
     const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
     setTimeout(function () {
         setCardAnimation("");
     }, 700);
-    const [open, setOpen] = React.useState(false);
-    const [formData, setFormData] = React.useState({});
-    const [error, setError] = React.useState({ message: "" });
-    const [success, setSuccess] = React.useState({ message: "" });
-    const [disabled, setDisabled] = React.useState({ disabled: true });
-
     const classes = useStyles();
-    const setopen = () => {
-        setOpen(!open);
-    }
-    const { ...rest } = props;
-
-    const UpdateFormData = (e) => {
-        switch (e.target.type) {
-            case "text":
-            case "email":
-            case "password":
-                formData[e.target.id] = e.target.value;
-                break;
-            case "checkbox":
-                formData[e.target.id] = e.target.checked;
-                setDisabled({ disabled: !e.target.checked });
-                break;
-        }
-        setFormData(formData);
-    };
-
-    const SubmitForm = (e) => {
-        e.preventDefault();
-        axios().post("/user/signup", formData)
-            .then((res) => {
-                console.log(res);
-                setSuccess({ message: "" });
-            })
-            .catch((err) => {
-                console.log(err);
-                setError({ message: err });
-            })
-            ;
-    }
-
-    let errorNotify = null;
-    let successNotify = null;
-    if (error.message !== "") {
-        errorNotify = (<SnackbarContent
-            message={
-                <span>
-                    <b>ERROR:</b> {error.message}
-                </span>
-            }
-            close
-            color="danger"
-            icon="info_outline"
-        />);
-    }
-
-    if (success.message !== "") {
-        successNotify = (<SnackbarContent
-            message={
-                <span>
-                    <b>SUCCESS:</b> {success.message}
-                </span>
-            }
-            close
-            color="success"
-            icon={Check}
-        />);
-    }
 
     return (
         <div>
@@ -108,10 +39,10 @@ export default function LoginPage(props) {
                 absolute
                 color="white"
                 brand="Crypto-VIP"
-                isOpen={open}
-                setOpen={setopen}
+                // isOpen={open}
+                // setOpen={setopen}
                 rightLinks={<HeaderLinks />}
-                {...rest}
+                //{...rest}
             />
             <div
                 className={classes.pageHeader}
@@ -122,7 +53,16 @@ export default function LoginPage(props) {
                 }}
             >
                 <div className={classes.container}>
-                    {errorNotify}{successNotify}
+                {fieldErrors.err && <SnackbarContent
+                        message={
+                            <span>
+                                <b>ERROR:</b> {fieldErrors.err}
+                            </span>
+                        }
+                        close
+                        color="danger"
+                        icon="info_outline"
+                    />}
                     <GridContainer justify="center">
                         <GridItem xs={12} sm={12} md={4}>
                             <Card className={classes[cardAnimaton]}>
@@ -162,9 +102,9 @@ export default function LoginPage(props) {
                                     <p className={classes.divider}>Or Be Classical</p>
                                     <CardBody>
                                         <CustomInput
-                                            labelText="First Name..."
+                                            labelText="First Name"
                                             id="firstName"
-
+                                            name="firstname"
                                             formControlProps={{
                                                 fullWidth: true
                                             }}
@@ -175,14 +115,15 @@ export default function LoginPage(props) {
                                                         <People className={classes.inputIconsColor} />
                                                     </InputAdornment>
                                                 ),
-                                                required: true,
-                                                onChange: UpdateFormData,
-                                                value: formData["firstName"]
+                                                required: true,                                                
+                                                onChange: onChange,
+                                                value: form.firstName || ""
                                             }}
                                         />
                                         <CustomInput
-                                            labelText="Last Name..."
+                                            labelText="Last Name"
                                             id="lastName"
+                                            name="lastName"
                                             formControlProps={{
                                                 fullWidth: true
                                             }}
@@ -194,13 +135,14 @@ export default function LoginPage(props) {
                                                     </InputAdornment>
                                                 ),
                                                 required: true,
-                                                onChange: UpdateFormData,
-                                                value: formData["lastName"]
+                                                onChange: onChange,
+                                                value: form.lastName || ""
                                             }}
                                         />
                                         <CustomInput
-                                            labelText="Email..."
+                                            labelText="E-mail"
                                             id="email"
+                                            name="email"
                                             formControlProps={{
                                                 fullWidth: true
                                             }}
@@ -212,13 +154,14 @@ export default function LoginPage(props) {
                                                     </InputAdornment>
                                                 ),
                                                 required: true,
-                                                onChange: UpdateFormData,
-                                                value: formData["email"]
+                                                onChange: onChange,
+                                                value: form.email || ""
                                             }}
                                         />
                                         <CustomInput
                                             labelText="Password"
                                             id="password"
+                                            name="password"
                                             formControlProps={{
                                                 fullWidth: true
                                             }}
@@ -233,13 +176,14 @@ export default function LoginPage(props) {
                                                 ),
                                                 autoComplete: "off",
                                                 required: true,
-                                                onChange: UpdateFormData,
-                                                value: formData["password"]
+                                                onChange: onChange,
+                                                value: form.password ||""
                                             }}
                                         />
                                         <CustomInput
                                             labelText="Re-Type Password"
                                             id="repassword"
+                                            name="repassword"
                                             formControlProps={{
                                                 fullWidth: true
                                             }}
@@ -254,22 +198,46 @@ export default function LoginPage(props) {
                                                 ),
                                                 autoComplete: "off",
                                                 required: true,
-                                                onChange: UpdateFormData,
-                                                value: formData["repassword"]
+                                                onChange: onChange,
+                                                value: form.repassword || ""
+                                            }}
+                                        />
+                                        <CustomInput
+                                            labelText="Referral Username"
+                                            id="referralusername"
+                                            name="referralusername"
+                                            formControlProps={{
+                                                fullWidth: true
+                                            }}
+                                            inputProps={{
+                                                type: "email",
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <People className={classes.inputIconsColor} />
+                                                    </InputAdornment>
+                                                ),
+                                                onChange: onChange,
+                                                value: form.referralusername || ""
                                             }}
                                         />
                                         <label>
-                                            <input id="terms" type="checkbox" required onChange={UpdateFormData} value={formData["terms"]} />
+                                            <input name="terms" id="terms" type="checkbox" required onChange={onChange} value={form.terms}/>  
                                             <small>I accept Crypto Vault Investment
-                                            <Link to="/termsconditions-page" rel="noopener noreferrer" target="_blank" style={{ marginLeft: "2px" }}>
+                                            <Link to="/termsconditions" rel="noopener noreferrer" target="_blank" style={{ marginLeft: "2px" }}>
                                                 Terms & Conditions
                                             </Link>
                                             </small>
                                         </label>
                                     </CardBody>
                                     <CardFooter className={classes.cardFooter}>
-                                        <Button type="submit" simple color="primary" size="lg" onClick={SubmitForm} {...disabled}>
-                                            Signup
+                                        <Button 
+                                            disabled={formValid || loading} 
+                                            loading ={loading}
+                                            type="submit"                                             
+                                            simple color="primary" 
+                                            size="lg" 
+                                            onClick={onSubmit} >
+                                            Signup                                           
                                         </Button>
                                     </CardFooter>
                                 </form>
@@ -282,3 +250,5 @@ export default function LoginPage(props) {
         </div>
     );
 }
+
+export default SignUpPage

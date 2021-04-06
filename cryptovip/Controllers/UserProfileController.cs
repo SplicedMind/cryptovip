@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using cryptovip.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace cryptovip.Controllers
 {
@@ -12,6 +13,19 @@ namespace cryptovip.Controllers
     [ApiController]
     public class UserProfileController : ControllerBase
     {
+        private readonly DBContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly AppData _appData;
+        private readonly ResponseModel _responseModel;
+
+        public UserProfileController(DBContext context, ResponseModel responseModel, IConfiguration configuration)
+        {
+            _context = context;
+            _configuration = configuration;
+            _responseModel = responseModel;
+            _appData = _configuration.GetSection("AppData").Get<AppData>();
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -25,7 +39,7 @@ namespace cryptovip.Controllers
         }
 
         [HttpPost]
-        public IActionResult Creat([FromBody] UserProfileModel value)
+        public IActionResult Create([FromBody] UserProfileModel value)
         {
             return Ok();
         }

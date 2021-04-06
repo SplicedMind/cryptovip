@@ -45,6 +45,8 @@ namespace cryptovip
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Transactions> Transactions { get; set; }
+        public DbSet<PaymentOptions> PaymentOptions { get; set; }
         public DbSet<SecurityQuestion> SecurityQuestions { get; set; }
         public DbSet<UserSecurityQuestionAnswer> UserSecurityQuestionAnswers { get; set; }
     }

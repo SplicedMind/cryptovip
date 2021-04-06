@@ -9,8 +9,8 @@ using cryptovip;
 namespace cryptovip.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20210314115855_first")]
-    partial class first
+    [Migration("20210406210928_pay update")]
+    partial class payupdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,6 +18,25 @@ namespace cryptovip.Migrations
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.4");
+
+            modelBuilder.Entity("crytopVipDb.Entities.PaymentOptions", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Channel")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PaymentOptions");
+                });
 
             modelBuilder.Entity("crytopVipDb.Entities.SecurityQuestion", b =>
                 {
@@ -32,6 +51,46 @@ namespace cryptovip.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SecurityQuestions");
+                });
+
+            modelBuilder.Entity("crytopVipDb.Entities.Transactions", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AccountNumber")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<DateTime>("Approved")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("Credit")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("Debit")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("PaymentOptionID")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PaymentOptionID1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AccountNumber");
+
+                    b.HasIndex("PaymentOptionID1");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("crytopVipDb.Entities.User", b =>
@@ -79,6 +138,10 @@ namespace cryptovip.Migrations
                     b.Property<byte[]>("ProfileImage")
                         .HasColumnType("varbinary(4000)");
 
+                    b.Property<string>("ReferralUserName")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
@@ -122,6 +185,15 @@ namespace cryptovip.Migrations
                     b.HasIndex("UserName1");
 
                     b.ToTable("UserSecurityQuestionAnswers");
+                });
+
+            modelBuilder.Entity("crytopVipDb.Entities.Transactions", b =>
+                {
+                    b.HasOne("crytopVipDb.Entities.PaymentOptions", "PaymentOption")
+                        .WithMany()
+                        .HasForeignKey("PaymentOptionID1");
+
+                    b.Navigation("PaymentOption");
                 });
 
             modelBuilder.Entity("crytopVipDb.Entities.UserProfile", b =>

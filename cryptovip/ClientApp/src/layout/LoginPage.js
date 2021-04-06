@@ -1,11 +1,8 @@
-import React, { useEffect } from "react";
-// @material-ui/core components
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
 import Email from "@material-ui/icons/Email";
-// core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Footer from "components/Footer/Footer.js";
@@ -21,19 +18,13 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bgl.jpg";
-import axios from "components/AxiosInstance/AxiosInstance.js";
 import SnackbarContent from "components/Snackbar/SnackbarContent.js";
-import Check from "@material-ui/icons/Check";
-import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
-export default function LoginPage(props) {
+export default function LoginPage({form :{form, loading, formValid,  error, data, onChange, onSubmit}}) {
     const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-    const [state, setState] = React.useState(false);
-    const [error, setError] = React.useState({ message: "" });
-    const [success, setSuccess] = React.useState({ message: "" });
-    const [formData, setFormData] = React.useState({});
+     const [state, setState] = React.useState(false);
 
     setTimeout(function () {
         setCardAnimation("");
@@ -44,71 +35,7 @@ export default function LoginPage(props) {
         setState(!state);
     }
 
-    const UpdateFormData = (e) => {
-        switch (e.target.type) {
-            case "email":
-            case "password":
-                formData[e.target.id] = e.target.value;
-                break;
-            case "checkbox":
-                formData[e.target.id] = e.target.checked;
-                break;
-        }
-        setFormData(formData);
-    };
-
-
-    // (            
-    //   {
-    //       method:'post',
-    //       url:"user/login",
-    //       headers:{
-    //           'Content-Type': 'application/json'                             
-    //       },
-    //       data: JSON.stringify(formData)                                            
-    //   })      
-    const SubmitForm = (e) => {
-        debugger;
-        e.preventDefault();
-        axios()
-            .post("/user/login", formData)
-            .then(
-                (result) => {
-                    debugger;
-                    if (result.data.success) {
-                        sessionStorage.setItem("user", JSON.stringify(result.data))
-                        sessionStorage.setItem("token", result.data.token)
-                        history.push("/profile-page");
-                    }
-                    else {
-                        setError({ message: result.data.error });
-                    }
-
-                })
-            .catch((err) => {
-                debugger
-                setError({ message: err });
-            })
-    }
-
-    const history = useHistory();
-
-    let errorNotify = null;
-    let successNotify = null;
-    if (error.message !== "") {
-        errorNotify = (<SnackbarContent
-            message={
-                <span>
-                    <b>ERROR:</b> {error.message}
-                </span>
-            }
-            close
-            color="danger"
-            icon="info_outline"
-        />);
-    }
-
-    const { ...rest } = props;
+    
     return (
         <div>
             <Header
@@ -118,7 +45,7 @@ export default function LoginPage(props) {
                 isOpen={state}
                 setOpen={setOpen}
                 rightLinks={<HeaderLinks />}
-                {...rest}
+                //{...rest}
             />
             <div
                 className={classes.pageHeader}
@@ -129,7 +56,32 @@ export default function LoginPage(props) {
                 }}
             >
                 <div className={classes.container}>
-                    {errorNotify}
+                    { 
+                        data && <SnackbarContent
+                                    message={
+                                        <span>
+                                            <b>Success:</b> {
+                                            ` Welcome ${data.value.firstName}. Your account was successfully created.`
+                                            }
+                                        </span>
+                                    }
+                                    close
+                                    color="success"
+                                    icon="info_outline" 
+                                />
+                    }
+                    {
+                        error && <SnackbarContent
+                                    message={
+                                        <span>
+                                            <b>ERROR:</b> {error}
+                                        </span>
+                                    }
+                                    close
+                                    color="danger"
+                                    icon="info_outline"
+                                />
+                    }
                     <GridContainer justify="center">
                         <GridItem xs={12} sm={12} md={4}>
                             <Card className={classes[cardAnimaton]}>
@@ -168,7 +120,6 @@ export default function LoginPage(props) {
                                     </CardHeader>
                                     <p className={classes.divider}>Or Be Classical</p>
                                     <CardBody>
-
                                         <CustomInput
                                             labelText="Email..."
                                             id="email"
@@ -177,7 +128,7 @@ export default function LoginPage(props) {
                                             }}
                                             inputProps={{
                                                 type: "email",
-                                                onChange: UpdateFormData,
+                                                onChange: onChange,
                                                 endAdornment: (
                                                     <InputAdornment position="end">
                                                         <Email className={classes.inputIconsColor} />
@@ -193,7 +144,7 @@ export default function LoginPage(props) {
                                             }}
                                             inputProps={{
                                                 type: "password",
-                                                onChange: UpdateFormData,
+                                                onChange: onChange,
                                                 endAdornment: (
                                                     <InputAdornment position="end">
                                                         <Icon className={classes.inputIconsColor}>lock_outline</Icon>
@@ -204,7 +155,12 @@ export default function LoginPage(props) {
                                         />
                                     </CardBody>
                                     <CardFooter className={classes.cardFooter}>
-                                        <Button simple type="submit" color="primary" size="lg" onClick={SubmitForm}>
+                                        <Button simple 
+                                        disabled={loading || formValid}
+                                        type="submit" 
+                                        color="primary" 
+                                        size="lg" 
+                                        onClick={onSubmit}>
                                             Login
                                         </Button>
                                     </CardFooter>

@@ -4,10 +4,24 @@ using MySql.EntityFrameworkCore.Metadata;
 
 namespace cryptovip.Migrations
 {
-    public partial class first : Migration
+    public partial class payupdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "PaymentOptions",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Channel = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
+                    Address = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentOptions", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "SecurityQuestions",
                 columns: table => new
@@ -34,6 +48,32 @@ namespace cryptovip.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    AccountNumber = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Approved = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Debit = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Credit = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    PaymentOptionID = table.Column<string>(type: "text", nullable: true),
+                    PaymentOptionID1 = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Transactions_PaymentOptions_PaymentOptionID1",
+                        column: x => x.PaymentOptionID1,
+                        principalTable: "PaymentOptions",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserProfiles",
                 columns: table => new
                 {
@@ -46,6 +86,7 @@ namespace cryptovip.Migrations
                     VIPAccountNumber = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
                     ProfileImage = table.Column<byte[]>(type: "varbinary(4000)", nullable: true),
                     Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ReferralUserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     UserName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
@@ -88,6 +129,16 @@ namespace cryptovip.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Transactions_AccountNumber",
+                table: "Transactions",
+                column: "AccountNumber");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_PaymentOptionID1",
+                table: "Transactions",
+                column: "PaymentOptionID1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_UserName",
                 table: "UserProfiles",
                 column: "UserName",
@@ -107,10 +158,16 @@ namespace cryptovip.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Transactions");
+
+            migrationBuilder.DropTable(
                 name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "UserSecurityQuestionAnswers");
+
+            migrationBuilder.DropTable(
+                name: "PaymentOptions");
 
             migrationBuilder.DropTable(
                 name: "SecurityQuestions");

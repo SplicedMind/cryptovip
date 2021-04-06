@@ -27,9 +27,18 @@ namespace cryptovip
 
         public static UserProfileModel Signup(UserModel user, DBContext dBContext)
         {
+            if (dBContext.Users.Any(x => x.UserName == user.Email))
+            {
+                throw new Exception($"{user.Email} has been associated with another user account, please use a different e-mal address");
+            }
             dBContext.Users.Add(user);
             dBContext.SaveChanges();
             return (UserProfileModel)dBContext.UserProfiles.Where(x => x.UserName == user.Email).FirstOrDefault();
+        }
+
+        public static List<PaymentOptionModel> GetPaymentOptions(DBContext dBContext)
+        {
+            return dBContext.PaymentOptions.Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Channel = x.Channel, Network = x.Network }).ToList();
         }
 
         public static void sendEmail(string to, string subject, string body, bool ishtml, MemoryStream[] attachmentStreams = null, string[] attachmentNames = null,

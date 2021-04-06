@@ -39,7 +39,7 @@ export default function Footer(props) {
         <div className={classes.container}>
           <div className={classes.left}>
           <Link
-                to="/privacypolicy-page" rel="noopener noreferrer"
+                to="/privacypolicy" rel="noopener noreferrer"
                 className={classes.block}
                 target="_blank"
               >
