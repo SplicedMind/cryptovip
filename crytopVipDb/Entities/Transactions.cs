@@ -28,7 +28,7 @@ namespace crytopVipDb.Entities
 
 
         [ForeignKey("ID")]
-        public string PaymentOptionID { get; set; }
+        public int PaymentOptionID { get; set; }
 
         public PaymentOptions PaymentOption { get; set; }        
     }

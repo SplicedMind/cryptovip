@@ -22,7 +22,7 @@ import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 const useStyles = makeStyles(styles);
 
-export default function LoginPage({form :{form, loading, formValid,  error, data, onChange, onSubmit}}) {
+export default function LoginPage({form :{form, loading, formValid,  error, signup, onChange, onSubmit}}) {
     const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
      const [state, setState] = React.useState(false);
 
@@ -57,11 +57,11 @@ export default function LoginPage({form :{form, loading, formValid,  error, data
             >
                 <div className={classes.container}>
                     { 
-                        data && <SnackbarContent
+                        signup && <SnackbarContent
                                     message={
                                         <span>
                                             <b>Success:</b> {
-                                            ` Welcome ${data.value.firstName}. Your account was successfully created.`
+                                            ` Welcome ${signup.value.firstName}. Your account was successfully created.`
                                             }
                                         </span>
                                     }

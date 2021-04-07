@@ -41,6 +41,21 @@ namespace cryptovip
             return dBContext.PaymentOptions.Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Channel = x.Channel, Network = x.Network }).ToList();
         }
 
+        public static PaymentOptionModel MakePayment(PaymentModel payment, DBContext dBContext)
+        {
+            dBContext.Transactions.Add(new Transactions { 
+                AccountNumber = payment.AccountNumber??"test account",
+                Debit = payment.Amount,
+                PaymentOptionID = payment.Currency,
+                Status = PaymentStatus.Pending,
+                Created = DateTime.UtcNow
+
+            });
+            dBContext.SaveChanges();
+
+            return dBContext.PaymentOptions.Where(x => x.ID == payment.Currency).Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Channel = x.Channel, Network = x.Network }).FirstOrDefault();
+        }
+
         public static void sendEmail(string to, string subject, string body, bool ishtml, MemoryStream[] attachmentStreams = null, string[] attachmentNames = null,
             string outgoingemail = "femi661@gmail.com", string username = "femi661@gmail.com", string password = "_Made_Man33", string outoingemailsmtpserver = "google.com", int outoingemailsmtpport = 443, bool usessl = false, string outoingemailname = "CryptoVIP")
         {

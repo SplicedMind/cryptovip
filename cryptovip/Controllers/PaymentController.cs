@@ -40,5 +40,21 @@ namespace cryptovip.Controllers
             }
             return Ok(_responseModel);
         }
+
+        [HttpPost("makepayment")]
+        public IActionResult MakePayment(PaymentModel payment)
+        {
+            try
+            {
+                PaymentOptionModel payOpt = Util.MakePayment(payment, _context);
+                _responseModel.Value = payOpt;
+            }
+            catch (Exception ex)
+            {
+                _responseModel.Error = ex.Message;
+                _responseModel.Value = ex;
+            }
+            return Ok(_responseModel);
+        }
     }
 }

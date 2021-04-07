@@ -1,7 +1,11 @@
+import { addfunds } from "context/actions/addfunds";
 import React from "react";
 import ProfileLayout from "./ProfileLayout";
+import QRCode from 'qrcode.react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { MdContentCopy } from "react-icons/md";
 
-export default function AddFundsPage({form:{form, loading, error, data, onChange, onSubmit}}) {
+export default function AddFundsPage({form:{form, loading, error, isCopied, onChange, onClick, onCopyText}}) {
     
     return (
     <ProfileLayout>
@@ -12,21 +16,49 @@ export default function AddFundsPage({form:{form, loading, error, data, onChange
             <div className="row col-md-6 justify-content-start">
                 <form>
                     <div className="row mb-3">
-                        <label for="currency" className="form-label col-md-4">Currency</label>
-                        <select id="currency" className="form-control col-md-8">
-                        {form.Options?.map((opt) => {
-                            return(<option value={opt.id}>{opt.channel}</option>); 
-                        })}
+                        <label htmlFor="currency" className="form-label col-md-4">Currency</label>
+                        <select id="currency" className="form-control col-md-8"  onChange={onChange} disabled={form.fundsData}>
+                            <option value={0}>Select Currency</option>
+                            {form.Options?.map((opt, index) => {
+                                return(<option key={index} value={opt.id}>{opt.channel}</option>); 
+                            })}
                         </select>
                     </div>
                     <div className="row mb-3">
-                        <label for="amount" className="form-label col-md-4">Amont</label>
-                        <input type="number" id="amount" className="form-control col-md-8"/>
+                        <label htmlFor="amount" className="form-label col-md-4">Amont</label>
+                        <input type="number" id="amount" className="form-control col-md-8" onChange={onChange} disabled={form.fundsData}/>
                     </div>
-                    <button type="submit" className="btn btn-success btn-sm offset-md-4">Next</button>
+                    <button type="submit" onClick={onClick} className="btn btn-success btn-sm offset-md-4" disabled={form.fundsData}>Next</button>
                 </form>
             </div>
-            
+            {form.fundsData && (
+                
+                <div className="container my-4">
+                    <h3>Payment Information</h3>
+                    <hr/>
+                    <div className="row">
+                        <div className="col-md-8">
+                            <div className="form-group">
+                                <label className="form-label">Address</label>
+                                <div className="form-control col-md-8">
+                                    {form.fundsData.address}
+                                    <CopyToClipboard text={form.fundsData.address} onCopy={onCopyText}>
+                                        <span style={{float:'right'}}>{isCopied ? <small style={{fontSize:'0.7rem', color:'green'}}>Copied!</small> : <MdContentCopy />}</span>
+                                    </CopyToClipboard>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Network</label>
+                                <span className="form-control col-md-8">{form.fundsData.network}</span>
+                            </div>
+                        </div>
+                        <div className="col-md-4 mt-4">
+                            <QRCode value={form.fundsData.address}/>
+                        </div>
+                    </div>
+                    
+                </div>
+            )}
         </div>        
     </ProfileLayout>
     );

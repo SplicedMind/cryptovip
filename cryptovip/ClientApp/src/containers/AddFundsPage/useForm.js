@@ -8,13 +8,15 @@ import { useHistory } from "react-router";
 export default() =>{
     const {authDispatch, 
         authState:{
-            auth :{loading, error, data}
+            auth :{loading, error, addfundsData}
         }
     } = useContext(GlobalContext)
 
     const [form, setForm] = useState({});
+    const [isCopied, setIsCopied] = useState(false);
+    const history = useHistory();
 
-    const onSubmit = (e) =>{
+    const onClick = (e) =>{
         e.preventDefault();
         addfunds(form)(authDispatch);
     };
@@ -23,12 +25,17 @@ export default() =>{
         setForm({...form, [e.currentTarget.id]: e.currentTarget.value });
     };
 
+    const onCopyText = ()=> {
+        setIsCopied(true);
+        setTimeout(() => {
+        setIsCopied(false);
+        }, 1000);
+    };
+
     useEffect(() =>{
-        debugger;
         axiosInstance()
         .get('/payment/paymentoptions')
         .then((res) =>{
-            debugger;
             if(res.data.success){
                 setForm({...form, Options: res.data.value});
             }
@@ -40,13 +47,14 @@ export default() =>{
             debugger;
             console.log(err);
         });
-    },[]);
+    },[]);   
 
     useEffect(() =>{
-        if (data) {
-            
+        debugger;
+        if(addfundsData){
+            setForm({...form, fundsData: addfundsData.value})
         }
-    },[data]);
+    }, [addfundsData]);
 
-    return {form, loading, error, data, onChange, onSubmit};
+    return {form, loading, error, isCopied, onChange, onClick, onCopyText};
 };

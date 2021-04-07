@@ -1,13 +1,13 @@
 import axiosInstance from '../../helpers/axiosInstance';
 import {ADDFUNDS_ERROR, ADDFUNDS_LOADING, ADDFUNDS_SUCCESS} from '../../constants/actionTypes/index';
 
-export const addfunds = ({account, paymentOption, amount}) => (dispatch) =>{
+export const addfunds = ({amount, currency}) => (dispatch) =>{
     dispatch({
         type:ADDFUNDS_LOADING
     });
 
     axiosInstance()
-        .post('',{account, paymentOption, amount})
+        .post('payment/makepayment',{amount, currency})
         .then((res) => {
             console.log('res', res);            
             if (res.data.success) {                

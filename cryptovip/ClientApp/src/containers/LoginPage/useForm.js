@@ -1,4 +1,4 @@
-import { login } from "context/actions/login";
+import { login as loginAction } from "context/actions/login";
 import { GlobalContext } from "context/Provider";
 import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 export default() =>{
     const {authDispatch, 
         authState:{
-            auth :{loading, error, data}
+            auth :{loading, error, signup, login}
         }
     } = useContext(GlobalContext)
 
@@ -16,7 +16,7 @@ export default() =>{
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        login(form)(authDispatch);
+        loginAction(form)(authDispatch);
     };
 
     const onChange = (e, val) =>{
@@ -24,14 +24,14 @@ export default() =>{
     };
 
     useEffect(() =>{
-        if (data) {
+        if (login) {
             debugger;
-            sessionStorage.setItem("user", JSON.stringify(data.value));
-            sessionStorage.setItem("token", data.value.token);
+            sessionStorage.setItem("user", JSON.stringify(login.value));
+            sessionStorage.setItem("token", login.value.token);
             history.push("/profile/dashboard");
         }
-    },[data]);
+    },[login]);
 
     const formValid = !form.email?.length || !form.password?.length;
-    return {form, loading, error, data, formValid, onChange, onSubmit};
+    return {form, loading, error, signup, formValid, onChange, onSubmit};
 };

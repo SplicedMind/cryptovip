@@ -1,4 +1,4 @@
-import { signup } from 'context/actions/signup';
+import { signup as signupAction } from 'context/actions/signup';
 import { GlobalContext } from 'context/Provider';
 import {useContext, useEffect, useState} from 'react';
 import { useHistory } from 'react-router';
@@ -8,14 +8,10 @@ export default () =>{
     const [fieldErrors, setFieldErrors] = useState({});
     const {authDispatch, 
         authState:{
-            auth :{loading, error, data}
+            auth :{loading, error, signup}
         }
     } = useContext(GlobalContext);
     const history = useHistory();
-
-    console.log('loading: ', loading);
-    console.log('err: ', error);
-    console.log('data: ', data);
 
     useEffect(()=>{
         if(error){
@@ -24,15 +20,15 @@ export default () =>{
     },[error]);
 
     useEffect(()=>{
-        if(data){
-            if (data.success) {
+        if(signup){
+            if (signup.success) {
                 history.push("/login");
             }
             else {
-                setFieldErrors({fieldErrors, err: data.error});
+                setFieldErrors({fieldErrors, err: signup.error});
             }
         }
-    },[data]);
+    },[signup]);
 
     const onChange = (e, val) =>{
         setForm({...form, [e.currentTarget.id]: e.currentTarget.type == "checkbox" ? e.currentTarget.checked : e.currentTarget.value });
@@ -42,7 +38,7 @@ export default () =>{
         e.preventDefault();
         setFieldErrors({});
         if(validateForm()){
-            signup(form)(authDispatch);   
+            signupAction(form)(authDispatch);   
         }        
     };
 
@@ -62,5 +58,5 @@ export default () =>{
     !form.terms;
 
    console.log('fielderror', fieldErrors);
-    return {form, onChange, onSubmit, formValid, loading, fieldErrors, data};
+    return {form, onChange, onSubmit, formValid, loading, fieldErrors, signup};
 };

@@ -4,7 +4,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 namespace cryptovip.Migrations
 {
-    public partial class payupdate : Migration
+    public partial class minorupdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,7 @@ namespace cryptovip.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Channel = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
+                    Network = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     Address = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
@@ -59,18 +60,17 @@ namespace cryptovip.Migrations
                     Debit = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Credit = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    PaymentOptionID = table.Column<string>(type: "text", nullable: true),
-                    PaymentOptionID1 = table.Column<int>(type: "int", nullable: true)
+                    PaymentOptionID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Transactions_PaymentOptions_PaymentOptionID1",
-                        column: x => x.PaymentOptionID1,
+                        name: "FK_Transactions_PaymentOptions_PaymentOptionID",
+                        column: x => x.PaymentOptionID,
                         principalTable: "PaymentOptions",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,9 +134,9 @@ namespace cryptovip.Migrations
                 column: "AccountNumber");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_PaymentOptionID1",
+                name: "IX_Transactions_PaymentOptionID",
                 table: "Transactions",
-                column: "PaymentOptionID1");
+                column: "PaymentOptionID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_UserName",

@@ -9,8 +9,8 @@ using cryptovip;
 namespace cryptovip.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20210406210928_pay update")]
-    partial class payupdate
+    [Migration("20210407222626_minor update")]
+    partial class minorupdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,10 @@ namespace cryptovip.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Channel")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("Network")
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)");
 
@@ -75,10 +79,7 @@ namespace cryptovip.Migrations
                     b.Property<decimal>("Debit")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<string>("PaymentOptionID")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("PaymentOptionID1")
+                    b.Property<int>("PaymentOptionID")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -88,7 +89,7 @@ namespace cryptovip.Migrations
 
                     b.HasIndex("AccountNumber");
 
-                    b.HasIndex("PaymentOptionID1");
+                    b.HasIndex("PaymentOptionID");
 
                     b.ToTable("Transactions");
                 });
@@ -191,7 +192,9 @@ namespace cryptovip.Migrations
                 {
                     b.HasOne("crytopVipDb.Entities.PaymentOptions", "PaymentOption")
                         .WithMany()
-                        .HasForeignKey("PaymentOptionID1");
+                        .HasForeignKey("PaymentOptionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PaymentOption");
                 });

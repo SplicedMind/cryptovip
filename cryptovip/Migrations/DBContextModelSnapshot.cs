@@ -77,10 +77,7 @@ namespace cryptovip.Migrations
                     b.Property<decimal>("Debit")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<string>("PaymentOptionID")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("PaymentOptionID1")
+                    b.Property<int>("PaymentOptionID")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -90,7 +87,7 @@ namespace cryptovip.Migrations
 
                     b.HasIndex("AccountNumber");
 
-                    b.HasIndex("PaymentOptionID1");
+                    b.HasIndex("PaymentOptionID");
 
                     b.ToTable("Transactions");
                 });
@@ -193,7 +190,9 @@ namespace cryptovip.Migrations
                 {
                     b.HasOne("crytopVipDb.Entities.PaymentOptions", "PaymentOption")
                         .WithMany()
-                        .HasForeignKey("PaymentOptionID1");
+                        .HasForeignKey("PaymentOptionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PaymentOption");
                 });
