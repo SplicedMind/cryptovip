@@ -6,29 +6,35 @@ import SignupPage from 'containers/SignupPage/index';
 import TermsConditions from "containers/TermsCondition/TermsCondition";
 import PrivacyPolicy from "containers/PrivacyPolicy/PrivacyPolicy";
 
-const routes = [
+const routes = [    
     {
-        path: "/profile/dashboard",
-        component: ProfilePage,
-        title: "Profile",
-        needsAuth:true
-    },
-    {
-        path: "/profile/addfunds",
+        path: "/dashboard/addfunds",
         component: AddFundsPage,
-        title: "Profile",
+        title: "Add Funds",
         needsAuth:true
     },
     {
-        path: "/profile/withdrawfunds",
+        path: "/dashboard/withdrawfunds",
+        component: ProfilePage,
+        title: "Withdraw Funds",
+        needsAuth:true
+    },
+    {
+        path: "/dashboard/transactions",
+        component: ProfilePage,
+        title: "Transaction",
+        needsAuth:true
+    },
+    {
+        path: "/dashboard/profile",
         component: ProfilePage,
         title: "Profile",
         needsAuth:true
     },
     {
-        path: "/profile/transactions",
+        path: "/dashboard",
         component: ProfilePage,
-        title: "Profile",
+        title: "Dashboard",
         needsAuth:true
     },
     {

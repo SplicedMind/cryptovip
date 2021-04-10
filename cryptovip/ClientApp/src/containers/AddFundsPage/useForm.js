@@ -2,8 +2,6 @@ import { addfunds } from "context/actions/addfunds";
 import { GlobalContext } from "context/Provider";
 import axiosInstance from "helpers/axiosInstance";
 import { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
-
 
 export default() =>{
     const {authDispatch, 
@@ -14,7 +12,6 @@ export default() =>{
 
     const [form, setForm] = useState({});
     const [isCopied, setIsCopied] = useState(false);
-    const history = useHistory();
 
     const onClick = (e) =>{
         e.preventDefault();
@@ -44,17 +41,18 @@ export default() =>{
             }            
         })
         .catch((err) => {
-            debugger;
             console.log(err);
         });
+        setForm({...form, Profile: sessionStorage.user });
     },[]);   
 
     useEffect(() =>{
-        debugger;
         if(addfundsData){
-            setForm({...form, fundsData: addfundsData.value})
+            setForm({...form, fundsData: addfundsData.value});            
         }
     }, [addfundsData]);
 
-    return {form, loading, error, isCopied, onChange, onClick, onCopyText};
+    const isValid = !!form.amount && !!form.currency;
+
+    return {form, loading, error, isCopied, isValid, onChange, onClick, onCopyText};
 };

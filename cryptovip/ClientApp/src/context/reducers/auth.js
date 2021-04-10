@@ -11,7 +11,7 @@ const auth = (state, {payload, type}) => {
                  auth:{
                      ...state.auth,
                      error:false,
-                     loading:true
+                     loading:true,
                 },
             };
         case SIGNUP_SUCCESS:
@@ -49,7 +49,8 @@ const auth = (state, {payload, type}) => {
                  auth:{
                      ...state.auth,
                      error: payload,
-                     loading:false
+                     loading:false,
+                     addfundsData: null
                 },
             };
         default:

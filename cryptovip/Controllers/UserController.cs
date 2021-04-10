@@ -47,6 +47,13 @@ namespace cryptovip.Controllers
                 {
                     UserProfileModel userProfile = Util.Signup(user, _context);
                     _responseModel.Value = userProfile;
+                    Util.sendEmail(user.Email, "Welcome To Crypto VIP",
+                     "<html><head><style> a { background-color: red; color: white; padding: 1em 1.5em; text-decoration: none; text-transform: uppercase; } a:hover {background-color: #555;} a:active {background-color: black; a:visited { background - color: #ccc;}</style></head>" +
+                     $"<body><p>Hello {user.FirstName},</p> <br/> <p>We are glad to have you onboard.</p> <br/>" +
+                     $"<p><a href='http://crowtech.org/api/user/verifyemail?token={GetMailVerificationToken(user)}'>Click here to verify your email.</a></p>" +
+                     $"</body></html>",
+                     true);
+
                 }
                 catch (Exception ex)
                 {
@@ -102,6 +109,13 @@ namespace cryptovip.Controllers
             return Ok();
         }
 
+        [HttpGet("verifyemail")]
+        public void VerifyEmail(string token)
+        {
+            string email = ValidateEmailToken(token).FindFirstValue("username");
+            Util.VerifyEmail(email, _context);
+        }
+
         private UserProfileModel Authenticate(UserModel user)
         {
             UserProfileModel _user = Util.Signin(user, _context);
@@ -124,6 +138,42 @@ namespace cryptovip.Controllers
                 _user.Token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
             }
             return _user;
+        }
+
+        private string GetMailVerificationToken(UserModel _user)
+        {
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            byte[] authKey = Encoding.ASCII.GetBytes(_appData.AuthKey);
+
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[] {
+                        new Claim("username", _user.Email),
+                        new Claim("tokentype", nameof(_user.Email)),
+                        new Claim("enabled", "false")
+                    }),
+                Issuer = "cryptovip",
+                Audience = "cryptomember",
+                Expires = DateTime.UtcNow.AddMinutes(500),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(authKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+        }
+
+        private ClaimsPrincipal ValidateEmailToken(string jwtToken)
+        {
+            TokenValidationParameters validationParameters = new TokenValidationParameters();
+
+            validationParameters.ValidateLifetime = true;
+            validationParameters.ValidAudience = "cryptomember";
+            validationParameters.ValidIssuer = "cryptovip";
+            validationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appData.AuthKey));
+
+            ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out _);
+
+
+            return principal;
         }
     }
 }

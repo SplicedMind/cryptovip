@@ -14,7 +14,7 @@ namespace cryptovip.Models
         public string MiddleName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string VIPAccountNumber { get; set; }
-        public byte[] ProfileImage { get; set; }
+        //public byte[] ProfileImage { get; set; }
         public string UserName { get; set; }
         public string ReferralUserName { get; set; }
         public bool Enabled { get; set; }
@@ -32,7 +32,6 @@ namespace cryptovip.Models
                     Id = _.Id,
                     LastName = _.LastName,
                     MiddleName = _.MiddleName,
-                    ProfileImage = _.ProfileImage,
                     UserName = _.UserName,
                     VIPAccountNumber = _.VIPAccountNumber,
                 };

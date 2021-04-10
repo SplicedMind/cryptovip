@@ -5,7 +5,7 @@ import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MdContentCopy } from "react-icons/md";
 
-export default function AddFundsPage({form:{form, loading, error, isCopied, onChange, onClick, onCopyText}}) {
+export default function AddFundsPage({form:{form, loading, error, isCopied, isValid, onChange, onClick, onCopyText}}) {
     
     return (
     <ProfileLayout>
@@ -26,9 +26,9 @@ export default function AddFundsPage({form:{form, loading, error, isCopied, onCh
                     </div>
                     <div className="row mb-3">
                         <label htmlFor="amount" className="form-label col-md-4">Amont</label>
-                        <input type="number" id="amount" className="form-control col-md-8" onChange={onChange} disabled={form.fundsData}/>
+                        <input type="number" id="amount" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.fundsData}/>
                     </div>
-                    <button type="submit" onClick={onClick} className="btn btn-success btn-sm offset-md-4" disabled={form.fundsData}>Next</button>
+                    <button type="submit" onClick={onClick} className="btn btn-success btn-sm offset-md-4" disabled={form.fundsData ||(!form.fundsData && !isValid)}>Next</button>
                 </form>
             </div>
             {form.fundsData && (
@@ -40,16 +40,17 @@ export default function AddFundsPage({form:{form, loading, error, isCopied, onCh
                         <div className="col-md-8">
                             <div className="form-group">
                                 <label className="form-label">Address</label>
-                                <div className="form-control col-md-8">
-                                    {form.fundsData.address}
+                                <div className="form-control">
+                                        <input style={{border:'0px', width:'90%', textOverflow: 'ellipsis', whiteSpace:'nowrap', overflow:'hidden'}} value={form.fundsData.address} readOnly/>
+                                    
                                     <CopyToClipboard text={form.fundsData.address} onCopy={onCopyText}>
                                         <span style={{float:'right'}}>{isCopied ? <small style={{fontSize:'0.7rem', color:'green'}}>Copied!</small> : <MdContentCopy />}</span>
-                                    </CopyToClipboard>
+                                    </CopyToClipboard>                       
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="form-label">Network</label>
-                                <span className="form-control col-md-8">{form.fundsData.network}</span>
+                                <span className="form-control">{form.fundsData.network}</span>
                             </div>
                         </div>
                         <div className="col-md-4 mt-4">

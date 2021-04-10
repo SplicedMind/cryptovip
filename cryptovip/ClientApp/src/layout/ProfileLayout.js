@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import Header from "components/Header/Header.js";
@@ -11,8 +11,10 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles(styles);
 
 export default function ProfileLayout(props) {
+    
     const classes = useStyles();
-    const [open, setState] = React.useState(false);   
+    const [open, setState] = useState(false); 
+    const profile = JSON.parse(sessionStorage.user);
     const setOpen = () => {
         setState(!open);
     }
@@ -33,17 +35,35 @@ export default function ProfileLayout(props) {
                     <div className="row">
                         <div className="col-md-3 my-4">
                             <div className="row">
-                                <div className="list-group" style={{width:"100%"}}>
-                                    <Link to="/profile/dashboard" className="btn btn-sm list-group-item" role="button" aria-pressed="false">
+                                <div style={{width:'100%'}}>
+                                    {profile && <>
+                                    <div style={{float:'left'}}>
+                                        <strong>{profile.lastName} {profile.firstName}</strong>                                        
+                                    </div>
+
+                                    <div style={{float:'right'}}>
+                                    <div className="form-check form-check-inline">
+                                            <input id="enabled" className="form-check-input" name="flexRadioDefault" type='radio' checked={profile.enabled} readOnly/>
+                                            <label className="form-check-label" htmlFor="enabled" style={{color:"black"}}>{ profile.enabled ? profile.vipAccountNumber : "Account not verified"}</label>                                            
+                                        </div>
+                                    </div>
+                                                                               
+                                    </>}
+                                </div>
+                                <div className="list-group" style={{width:"100%"}}>                                    
+                                    <Link to="/dashboard" className="btn btn-sm list-group-item" role="button" aria-pressed="false">
                                         Dashboard
                                     </Link>
-                                    <Link to="/profile/addfunds" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                    <Link to="/dashboard/profile" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                        Profile
+                                    </Link>
+                                    <Link to="/dashboard/addfunds" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
                                         Add Funds
                                     </Link>
-                                    <Link to="/profile/withdrawfunds" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                    <Link to="/dashboard/withdrawfunds" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
                                         Withdraw Funds
                                     </Link>
-                                    <Link to="/profile/transactions" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                    <Link to="/dashboard/transactions" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
                                         Transactions
                                     </Link>                                
                                 </div>

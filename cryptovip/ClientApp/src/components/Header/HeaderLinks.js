@@ -70,7 +70,7 @@ export default function HeaderLinks(props) {
                     Contact
                 </Button>
             </ListItem>
-            { !pathname.includes('/profile') && !isAuth &&
+            { !pathname.includes('/dashboard') && !isAuth &&
                 <ListItem className={classes.listItem}>
                     <Button
                         color="transparent"
@@ -85,7 +85,7 @@ export default function HeaderLinks(props) {
                 </ListItem>
             }
 
-            {!pathname.includes('/profile') && !isAuth &&
+            {!pathname.includes('/dashboard') && !isAuth &&
                 <ListItem className={classes.listItem}>
                     <Button
                         color="transparent"
@@ -99,16 +99,16 @@ export default function HeaderLinks(props) {
                 </ListItem>
             }
 
-            {!pathname.includes('/profile') && isAuth &&
+            {!pathname.includes('/dashboard') && isAuth &&
                 <ListItem className={classes.listItem}>
                     <Button
                         color="transparent"
-                        href="/profile/dashboard"
+                        href="/dashboard"
                         target=""
                         className={classes.navLink}
                     >
                         <i className="fas fa-user" />
-                        profile
+                        dashboard
                     </Button>
                 </ListItem>
             }

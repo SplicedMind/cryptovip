@@ -12,8 +12,8 @@ const RenderRoute = (route) =>{
     if(route.needsAuth && !isAuthenticated()){
         history.push('/login');
     }
-    else if(pathname === '/profile' || pathname === '/profile/'){
-        history.push('/profile/dashboard')
+    else if(pathname === '/dashboard/'){
+        history.push('/dashboard')
     }
     return <Route path={route.path} exact render={(props) => <route.component {...props}/>}></Route>
 }

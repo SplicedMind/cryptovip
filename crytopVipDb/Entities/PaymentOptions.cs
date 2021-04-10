@@ -12,7 +12,7 @@ namespace crytopVipDb.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(30)]
         public string Channel { get; set; }
 
         [MaxLength(10)]

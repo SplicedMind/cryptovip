@@ -220,14 +220,16 @@ const SignUpPage = ({form:{onChange, form, formValid, onSubmit, loading, fieldEr
                                                 value: form.referralusername || ""
                                             }}
                                         />
-                                        <label>
-                                            <input name="terms" id="terms" type="checkbox" required onChange={onChange} value={form.terms}/>  
-                                            <small>I accept Crypto Vault Investment
-                                            <Link to="/termsconditions" rel="noopener noreferrer" target="_blank" style={{ marginLeft: "2px" }}>
-                                                Terms & Conditions
-                                            </Link>
-                                            </small>
-                                        </label>
+                                        <div className="form-check form-check-inline">
+                                            <input className="form-check-input" name="terms" id="terms" type="checkbox" required onChange={onChange} value={form.terms}/>  
+                                            <label className="form-check-label">
+                                                <small>I accept Crypto Vault Investment
+                                                    <Link to="/termsconditions" rel="noopener noreferrer" target="_blank" style={{ marginLeft: "2px" }}>
+                                                        Terms & Conditions
+                                                    </Link>
+                                                </small>
+                                            </label>                                            
+                                        </div>
                                     </CardBody>
                                     <CardFooter className={classes.cardFooter}>
                                         <Button 

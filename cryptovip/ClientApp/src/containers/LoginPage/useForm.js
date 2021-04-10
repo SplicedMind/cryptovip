@@ -28,7 +28,7 @@ export default() =>{
             debugger;
             sessionStorage.setItem("user", JSON.stringify(login.value));
             sessionStorage.setItem("token", login.value.token);
-            history.push("/profile/dashboard");
+            history.push("/dashboard");
         }
     },[login]);
 
