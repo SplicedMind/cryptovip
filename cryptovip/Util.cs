@@ -2,6 +2,7 @@
 using crytopVipDb;
 using crytopVipDb.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace cryptovip
         }
 
         public static void sendEmail(string to, string subject, string body, bool ishtml, MemoryStream[] attachmentStreams = null, string[] attachmentNames = null,
-            string outgoingemail = "femiakinbode@crowtech.org", string username = "AKIA5BLLAKCRAKX6CM74", string password = "BMUjCY+CvxPef2kCXXqdBM5eGraJ0ok1aJD8XvKcmpet", string outoingemailsmtpserver = "email-smtp.eu-west-1.amazonaws.com", int outoingemailsmtpport = 587, bool usessl = true, string outoingemailname = "CryptoVIP")
+            string outgoingemail = "", string username = "", string password = "", string outoingemailsmtpserver = "", int outoingemailsmtpport = 587, bool usessl = true, string outoingemailname = "")
         {
             MailMessage mailmsg = new MailMessage();
             mailmsg.IsBodyHtml = ishtml;

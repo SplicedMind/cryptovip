@@ -49,10 +49,11 @@ namespace cryptovip.Controllers
                     _responseModel.Value = userProfile;
                     Util.sendEmail(user.Email, "Welcome To Crypto VIP",
                      "<html><head><style> a { background-color: red; color: white; padding: 1em 1.5em; text-decoration: none; text-transform: uppercase; } a:hover {background-color: #555;} a:active {background-color: black; a:visited { background - color: #ccc;}</style></head>" +
-                     $"<body><p>Hello {user.FirstName},</p> <br/> <p>We are glad to have you onboard.</p> <br/>" +
+                     $"<body><p>Hello {user.FirstName},</p> <p>We are glad to have you onboard.</p> <br/>" +
                      $"<p><a href='http://crowtech.org/api/user/verifyemail?token={GetMailVerificationToken(user)}'>Click here to verify your email.</a></p>" +
                      $"</body></html>",
-                     true);
+                     true,null,null, _configuration["Smtp:From"], _configuration["Smtp:Username"],
+                     _configuration["Smtp:Password"], _configuration["Smtp:Server"], Convert.ToInt32(_configuration["Smtp:Port"]), true, _configuration["Smtp:Name"]);
 
                 }
                 catch (Exception ex)
