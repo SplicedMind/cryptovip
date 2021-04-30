@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace crytopVipDb.Entities
 {
@@ -10,15 +7,20 @@ namespace crytopVipDb.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public long ID { get; set; }
+
+        [ForeignKey("ID")]
+        public byte SecurityQuestionID { get; set; }
+
+        public SecurityQuestion SecurityQuestion { get; set; }
 
         [MaxLength(100)]
         public string Answer { get; set; }
-
-        public long SecurityQuestionId { get; set; }
-        public SecurityQuestion SecurityQuestion { get; set; }
-        [MaxLength(50)]
+                
+        [MaxLength(320)]
+        [ForeignKey("UserName")]
         public string UserName { get; set; }
+
         public User User { get; set; }
     }
 }

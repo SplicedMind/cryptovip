@@ -20,9 +20,9 @@ namespace cryptovip
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<User>().HasKey(u => u.UserName);
-            //modelBuilder.Entity<User>().HasAnnotation()
-            //modelBuilder.Entity<User>().HasKey(u => u.Id);
+            //modelbuilder.entity<userprofile>().hasa<user>();
+            //modelbuilder.entity<user>().hasannotation()
+            //modelbuilder.entity<user>().haskey(u => u.id);
 
             //modelBuilder.Entity<User>()
             //    .HasOne<UserProfile>(u => u.UserProfile)
@@ -44,6 +44,7 @@ namespace cryptovip
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Accounts> Accounts { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Transactions> Transactions { get; set; }
         public DbSet<PaymentOptions> PaymentOptions { get; set; }

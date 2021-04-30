@@ -17,40 +17,82 @@ namespace cryptovip.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.4");
 
-            modelBuilder.Entity("crytopVipDb.Entities.PaymentOptions", b =>
+            modelBuilder.Entity("crytopVipDb.Entities.Accounts", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AccountNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Currency")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<byte?>("PaymentOptionID")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("ReceivingAddress")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int?>("UserProfileID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                    b.HasKey("ID");
 
-                    b.Property<string>("Channel")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                    b.HasIndex("PaymentOptionID");
+
+                    b.HasIndex("UserProfileID");
+
+                    b.HasIndex(new[] { "AccountNumber", "Currency" }, "AccountNumber_Currency")
+                        .IsUnique();
+
+                    b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("crytopVipDb.Entities.PaymentOptions", b =>
+                {
+                    b.Property<byte>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Currency")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<byte>("MinimumConfirmation")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("Network")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex(new[] { "Currency" }, "Currency")
+                        .IsUnique();
 
                     b.ToTable("PaymentOptions");
                 });
 
             modelBuilder.Entity("crytopVipDb.Entities.SecurityQuestion", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<byte>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("Question")
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.ToTable("SecurityQuestions");
                 });
@@ -62,8 +104,8 @@ namespace cryptovip.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("AccountNumber")
-                        .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<DateTime>("Approved")
                         .HasColumnType("datetime");
@@ -74,20 +116,29 @@ namespace cryptovip.Migrations
                     b.Property<decimal>("Credit")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<string>("Currency")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
                     b.Property<decimal>("Debit")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("PaymentOptionID")
-                        .HasColumnType("int");
+                    b.Property<byte?>("PaymentOptionID")
+                        .HasColumnType("tinyint");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserProfileID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("AccountNumber");
-
                     b.HasIndex("PaymentOptionID");
+
+                    b.HasIndex("UserProfileID");
+
+                    b.HasIndex(new[] { "Status" }, "Status");
 
                     b.ToTable("Transactions");
                 });
@@ -95,8 +146,8 @@ namespace cryptovip.Migrations
             modelBuilder.Entity("crytopVipDb.Entities.User", b =>
                 {
                     b.Property<string>("UserName")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(320)
+                        .HasColumnType("varchar(320)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -110,9 +161,9 @@ namespace cryptovip.Migrations
 
             modelBuilder.Entity("crytopVipDb.Entities.UserProfile", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime");
@@ -135,23 +186,23 @@ namespace cryptovip.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("ReferralUserName")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasMaxLength(320)
+                        .HasColumnType("varchar(320)");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasMaxLength(320)
+                        .HasColumnType("varchar(320)");
 
                     b.Property<string>("VIPAccountNumber")
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "VIPAccountNumber" }, "vipAcc")
+                    b.HasIndex(new[] { "VIPAccountNumber" }, "VIPAccountNumber")
                         .IsUnique();
 
                     b.ToTable("UserProfiles");
@@ -159,7 +210,7 @@ namespace cryptovip.Migrations
 
             modelBuilder.Entity("crytopVipDb.Entities.UserSecurityQuestionAnswer", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
@@ -167,34 +218,53 @@ namespace cryptovip.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<long>("SecurityQuestionId")
-                        .HasColumnType("bigint");
+                    b.Property<byte>("SecurityQuestionID")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(320)
+                        .HasColumnType("varchar(320)");
 
                     b.Property<string>("UserName1")
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(320)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
-                    b.HasIndex("SecurityQuestionId");
+                    b.HasIndex("SecurityQuestionID");
 
                     b.HasIndex("UserName1");
 
                     b.ToTable("UserSecurityQuestionAnswers");
                 });
 
+            modelBuilder.Entity("crytopVipDb.Entities.Accounts", b =>
+                {
+                    b.HasOne("crytopVipDb.Entities.PaymentOptions", "PaymentOption")
+                        .WithMany()
+                        .HasForeignKey("PaymentOptionID");
+
+                    b.HasOne("crytopVipDb.Entities.UserProfile", "UserProfile")
+                        .WithMany()
+                        .HasForeignKey("UserProfileID");
+
+                    b.Navigation("PaymentOption");
+
+                    b.Navigation("UserProfile");
+                });
+
             modelBuilder.Entity("crytopVipDb.Entities.Transactions", b =>
                 {
                     b.HasOne("crytopVipDb.Entities.PaymentOptions", "PaymentOption")
                         .WithMany()
-                        .HasForeignKey("PaymentOptionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PaymentOptionID");
+
+                    b.HasOne("crytopVipDb.Entities.UserProfile", "UserProfile")
+                        .WithMany()
+                        .HasForeignKey("UserProfileID");
 
                     b.Navigation("PaymentOption");
+
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("crytopVipDb.Entities.UserProfile", b =>
@@ -210,7 +280,7 @@ namespace cryptovip.Migrations
                 {
                     b.HasOne("crytopVipDb.Entities.SecurityQuestion", "SecurityQuestion")
                         .WithMany("UserSecurityQuestionAnswers")
-                        .HasForeignKey("SecurityQuestionId")
+                        .HasForeignKey("SecurityQuestionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

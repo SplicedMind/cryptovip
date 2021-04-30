@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace crytopVipDb.Entities
 {
+    [Index(nameof(Currency), IsUnique = true, Name = nameof(Currency))]
     public class PaymentOptions
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public byte ID { get; set; }
 
-        [MaxLength(30)]
-        public string Channel { get; set; }
+        [MaxLength(20)]
+        public string Currency { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(20)]
         public string Network { get; set; }
 
-        [MaxLength(50)]
+        public byte MinimumConfirmation { get; set; }
+
+        [MaxLength(100)]
         public string Address { get; set; }
     }
 }

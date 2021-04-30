@@ -1,8 +1,5 @@
-﻿using crytopVipDb.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using crytopVipDb.Entities;
 
 namespace cryptovip.Models
 {
@@ -14,7 +11,6 @@ namespace cryptovip.Models
         public string MiddleName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string VIPAccountNumber { get; set; }
-        //public byte[] ProfileImage { get; set; }
         public string UserName { get; set; }
         public string ReferralUserName { get; set; }
         public bool Enabled { get; set; }
@@ -29,7 +25,7 @@ namespace cryptovip.Models
                     DateOfBirth = _.DateOfBirth,
                     Enabled = _.Enabled,
                     FirstName = _.FirstName,
-                    Id = _.Id,
+                    Id = _.ID,
                     LastName = _.LastName,
                     MiddleName = _.MiddleName,
                     UserName = _.UserName,

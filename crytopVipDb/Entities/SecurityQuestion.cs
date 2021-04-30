@@ -10,7 +10,7 @@ namespace crytopVipDb.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public byte ID { get; set; }
 
         [MaxLength(500)]
         public string Question { get; set; }

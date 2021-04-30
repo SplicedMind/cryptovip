@@ -203,7 +203,7 @@ const SignUpPage = ({form:{onChange, form, formValid, onSubmit, loading, fieldEr
                                             }}
                                         />
                                         <CustomInput
-                                            labelText="Referral Username"
+                                            labelText="Referral E-mail"
                                             id="referralusername"
                                             name="referralusername"
                                             formControlProps={{

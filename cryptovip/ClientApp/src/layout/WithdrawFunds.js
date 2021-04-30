@@ -1,17 +1,13 @@
-import { addfunds } from "context/actions/addfunds";
 import React from "react";
 import ProfileLayout from "./ProfileLayout";
-import QRCode from 'qrcode.react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { MdContentCopy } from "react-icons/md";
 
-export default function AddFundsPage({form:{form, loading, error, isCopied, isValid, onChange, onClick, onCopyText}}) {
+export default function WithdrawFundsPage({form:{form, loading, error, isCopied, isValid, onChange, onClick, onCopyText}}) {
     
     return (
     <ProfileLayout>
         <div className="container my-4">
             <div className="row col-md-6 justify-content-start">
-                <h4>Add Funds</h4>
+                <h4>Withdraw Funds</h4>
             </div>
             <div className="row col-md-6 justify-content-start">
                 <form>

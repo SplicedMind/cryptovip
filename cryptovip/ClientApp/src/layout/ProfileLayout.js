@@ -50,20 +50,20 @@ export default function ProfileLayout(props) {
                                                                                
                                     </>}
                                 </div>
-                                <div className="list-group" style={{width:"100%"}}>                                    
-                                    <Link to="/dashboard" className="btn btn-sm list-group-item" role="button" aria-pressed="false">
-                                        Dashboard
+                                <div className="list-group" style={{width:"100%", color:'purple'}}>                                    
+                                    <Link to="/dashboard" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="false">
+                                        My E-Wallet
                                     </Link>
-                                    <Link to="/dashboard/profile" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
-                                        Profile
+                                    <Link to="/dashboard/profile" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                        My Profile
                                     </Link>
-                                    <Link to="/dashboard/addfunds" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                    <Link to="/dashboard/addfunds" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
                                         Add Funds
                                     </Link>
-                                    <Link to="/dashboard/withdrawfunds" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                    <Link to="/dashboard/withdrawfunds" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
                                         Withdraw Funds
                                     </Link>
-                                    <Link to="/dashboard/transactions" className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                    <Link to="/dashboard/transactions" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
                                         Transactions
                                     </Link>                                
                                 </div>

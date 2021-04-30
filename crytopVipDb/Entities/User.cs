@@ -1,24 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using Index = Microsoft.EntityFrameworkCore.Metadata.Internal.Index;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace crytopVipDb.Entities
 {
-    //[Index("UserName", IsUnique =true)]
+    //[Index(nameof(UserName), IsUnique = true, Name = nameof(UserName))]
     public class User
     {
-        //[Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        //public long Id { get; set; }
-        
         [Key]
         [Required]
-        [MaxLength(50)]
+        [MaxLength(320)]
         [DataType(DataType.Text)]
         public string UserName { get; set; }
 
@@ -28,6 +21,7 @@ namespace crytopVipDb.Entities
         public string Password { get; set; }
 
         public UserProfile UserProfile { get; set; }
+
         public IList<UserSecurityQuestionAnswer> UserSecurityQuestionAnswers { get; set; }
     }
 }
