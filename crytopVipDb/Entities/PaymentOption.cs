@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace crytopVipDb.Entities
 {
     [Index(nameof(Currency), IsUnique = true, Name = nameof(Currency))]
-    public class PaymentOptions
+    public class PaymentOption
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

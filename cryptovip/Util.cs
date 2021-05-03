@@ -78,17 +78,80 @@ namespace cryptovip
             return dBContext.PaymentOptions.Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Currency = x.Currency, Network = x.Network }).ToList();
         }
 
+        public static List<TransactionModel> GetTransactions(string accountNumber, DBContext dBContext)
+        {
+            return dBContext.Transactions.Where(x => x.AccountNumber == accountNumber).Select(x => (TransactionModel)x).ToList();
+        }
+
+        public static List<AccountModel> GetAccounts(string accountNumber, DBContext dBContext)
+        {
+            return dBContext.Accounts.Where(x => x.AccountNumber == accountNumber).Select(x => (AccountModel)x).ToList();
+        }
+
+        public static dynamic GetAddress(byte currencyid, string accountNumber, DBContext dBContext)
+        {
+            string currency = dBContext.PaymentOptions.Where(x => x.ID == currencyid).Select(x => x.Currency).FirstOrDefault();
+            return dBContext.Accounts.Where(x => x.AccountNumber == accountNumber && x.Currency == currency).Select(x => new { Address = x.ReceivingAddress, x.Network}).ToList();
+        }
+
         public static PaymentOptionModel MakePayment(PaymentModel payment, DBContext dBContext)
         {
             var payOptionInfo = dBContext.PaymentOptions.Where(x => x.ID == payment.CurrencyID).Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Currency = x.Currency, Network = x.Network, MinimumConfirmation = x.MinimumConfirmation }).FirstOrDefault();
-            dBContext.Transactions.Add(new Transactions
+            
+            dBContext.Transactions.Add(new Transaction
             {
-                AccountNumber = payment.AccountNumber ?? "test account",
-                Debit = payment.Amount,
+                AccountNumber = payment.AccountNumber,
+                Credit = payment.Amount,
                 Currency = payOptionInfo.Currency,
                 Status = PaymentStatus.Pending,
                 Created = DateTime.UtcNow
             });
+
+            Account account = dBContext.Accounts.Where(a => a.AccountNumber == payment.AccountNumber && a.Currency == payOptionInfo.Currency).FirstOrDefault();
+
+            ///TODO: Move to admin, should be done when admin has processed the payments 
+            if(account == null)
+            {
+                dBContext.Accounts.Add(new Account
+                {
+                    AccountNumber = payment.AccountNumber,
+                    Currency = payOptionInfo.Currency,
+                    Capital = payment.Amount
+                });
+            }
+
+            dBContext.SaveChanges();
+
+            return payOptionInfo;
+        }
+
+        public static PaymentOptionModel WithdrawFunds(WithdrawalModel withdrawal, DBContext dBContext)
+        {
+            var payOptionInfo = dBContext.PaymentOptions.Where(x => x.ID == withdrawal.CurrencyID).Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Currency = x.Currency, Network = x.Network, MinimumConfirmation = x.MinimumConfirmation }).FirstOrDefault();
+            
+            dBContext.Transactions.Add(new Transaction
+            {
+                AccountNumber = withdrawal.AccountNumber,
+                Debit = withdrawal.Amount,
+                Currency = payOptionInfo.Currency,
+                Status = PaymentStatus.Pending,
+                Created = DateTime.UtcNow
+            });
+
+            Account account = dBContext.Accounts.Where(a => a.AccountNumber == withdrawal.AccountNumber && a.Currency == payOptionInfo.Currency).FirstOrDefault();
+
+            ///TODO: Move to admin, should be done when admin has processed the payments 
+            if (account == null)
+            {
+                dBContext.Accounts.Add(new Account
+                {
+                    AccountNumber = withdrawal.AccountNumber,
+                    Currency = payOptionInfo.Currency,
+                    ReceivingAddress = withdrawal.Address,
+                    Network = withdrawal.Network
+                });
+            }
+
             dBContext.SaveChanges();
 
             return payOptionInfo;

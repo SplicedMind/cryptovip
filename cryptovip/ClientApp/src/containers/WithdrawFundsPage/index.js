@@ -4,7 +4,6 @@ import WithdrawFundsPage from 'layout/WithdrawFunds';
 
 
 const WithdrawFunds = () =>{
-    debugger;
     return (<WithdrawFundsPage form={useForm()} />)
 };
 

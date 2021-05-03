@@ -45,10 +45,23 @@ namespace cryptovip.Controllers
             return Ok(_responseModel);
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id)
+        [HttpGet("ewallets")]
+        public IActionResult EWallets(string accountnumber)
         {
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    List<AccountModel> accounts = Util.GetAccounts(accountnumber, _context);
+                    _responseModel.Value = accounts;
+                }
+                catch (Exception ex)
+                {
+                    _responseModel.Error = ex.Message;
+                    _responseModel.Value = ex;
+                }
+            }
+            return Ok(_responseModel);
         }
 
         [HttpPost]

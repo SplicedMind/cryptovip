@@ -15,6 +15,6 @@ namespace cryptovip.Models
 
         public string Network { get; set; }
 
-        public string AccountNumber { get; internal set; }
+        public string AccountNumber { get; set; }
     }
 }

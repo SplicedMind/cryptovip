@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileLayout from "./ProfileLayout";
 
-export default function TransactionsPage({form:{form, loading, error, isCopied, isValid, onChange, onClick, onCopyText}}) {
+export default function TransactionsPage({form:{form, loading, error, isValid, onChange, onClick}}) {
     
     return (
     <ProfileLayout>
@@ -24,26 +24,18 @@ export default function TransactionsPage({form:{form, loading, error, isCopied, 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>SN</td>
-                            <td>Created</td>
-                            <td>Approved</td>                            
-                            <td>Debit</td>                            
-                            <td>Credit</td>
-                            <td>Fee</td>
-                            <td>Currency</td>
-                            <td>Status</td>                            
-                        </tr>
-                        <tr>
-                            <td>SN</td>
-                            <td>Created</td>
-                            <td>Approved</td>                            
-                            <td>Debit</td>                            
-                            <td>Credit</td>
-                            <td>Fee</td>
-                            <td>Currency</td>
-                            <td>Status</td>                            
-                        </tr>
+                        {form.Transaction?.map((opt, index) => {
+                            return(<tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{opt.created}</td>
+                                <td>{opt.approved}</td>                            
+                                <td>{opt.debit}</td>                            
+                                <td>{opt.credit}</td>
+                                <td>{opt.fee}</td>
+                                <td>{opt.currency}</td>
+                                <td>{opt.status}</td>                            
+                            </tr>);
+                        })}
                     </tbody>
                 </table>                
             </div>

@@ -4,7 +4,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 namespace cryptovip.Migrations
 {
-    public partial class GenDataFix : Migration
+    public partial class fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,6 +59,8 @@ namespace cryptovip.Migrations
                     FirstName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     MiddleName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Phone = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
+                    Address = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     VIPAccountNumber = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
                     Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ReferralUserName = table.Column<string>(type: "varchar(320)", maxLength: 320, nullable: true),
@@ -112,8 +114,12 @@ namespace cryptovip.Migrations
                     AccountNumber = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
                     UserProfileID = table.Column<int>(type: "int", nullable: true),
                     Currency = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
+                    Capital = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    ROI = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Commission = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     PaymentOptionID = table.Column<byte>(type: "tinyint", nullable: true),
-                    ReceivingAddress = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                    ReceivingAddress = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    Network = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -146,6 +152,7 @@ namespace cryptovip.Migrations
                     Approved = table.Column<DateTime>(type: "datetime", nullable: false),
                     Debit = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Credit = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    Fee = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

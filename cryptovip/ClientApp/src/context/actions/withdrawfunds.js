@@ -1,26 +1,26 @@
 import axiosInstance from '../../helpers/axiosInstance';
-import {PROFILE_ERROR, PROFILE_LOADING, PROFILE_SUCCESS} from '../../constants/actionTypes/index';
+import {WITHDRAWAL_ERROR, WITHDRAWAL_LOADING, WITHDRAWAL_SUCCESS} from '../../constants/actionTypes/index';
 
-export const saveProfile = (form) => (dispatch) =>{
+export const withdrawFunds = ({currencyid, amount, accountnumber, network, address}) => (dispatch) =>{
     dispatch({
-        type:PROFILE_LOADING
+        type: WITHDRAWAL_LOADING
     });
 
     axiosInstance()
-        .post('userProfile', form)
+        .post('payment/withdrawfunds', {currencyid, amount, accountnumber, network, address})
         .then((res) => {
             console.log('res', res);    
                    
             if (res.data.success) {    
                 dispatch({
-                    type:PROFILE_SUCCESS,
+                    type:WITHDRAWAL_SUCCESS,
                     payload:res.data
                 });
             }
             else 
             {
                 dispatch({
-                    type:PROFILE_ERROR,
+                    type:WITHDRAWAL_ERROR,
                     payload: res.data.error
                 });
             }            
@@ -28,7 +28,7 @@ export const saveProfile = (form) => (dispatch) =>{
         .catch((err) => {
             console.log('err',err)
             dispatch({
-                type:PROFILE_ERROR,
+                type:WITHDRAWAL_ERROR,
                 payload: err
             });
         });

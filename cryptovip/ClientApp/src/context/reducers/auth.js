@@ -2,7 +2,8 @@ import {
     LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS, 
     ADDFUNDS_ERROR, ADDFUNDS_LOADING, ADDFUNDS_SUCCESS,
     SIGNUP_ERROR, SIGNUP_LOADING, SIGNUP_SUCCESS, 
-    PROFILE_ERROR, PROFILE_LOADING, PROFILE_SUCCESS
+    PROFILE_ERROR, PROFILE_LOADING, PROFILE_SUCCESS,
+    WITHDRAWAL_ERROR, WITHDRAWAL_LOADING, WITHDRAWAL_SUCCESS
 } from '../../constants/actionTypes/index';
 
 const auth = (state, {payload, type}) => {
@@ -11,6 +12,7 @@ const auth = (state, {payload, type}) => {
         case LOGIN_LOADING:    
         case ADDFUNDS_LOADING:
         case PROFILE_LOADING:
+        case WITHDRAWAL_LOADING:
             return {
                 ...state,
                  auth:{
@@ -55,10 +57,20 @@ const auth = (state, {payload, type}) => {
                     profile: payload
                 },
             };
+        case WITHDRAWAL_SUCCESS:
+            return{
+                ...state,
+                auth:{
+                    ...state.auth,
+                    loading:false,
+                    withdraw: payload
+                },
+            };
         case SIGNUP_ERROR:
         case LOGIN_ERROR:
         case ADDFUNDS_ERROR:
         case PROFILE_ERROR:
+        case WITHDRAWAL_ERROR:
             return {
                 ...state,
                  auth:{

@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileLayout from "./ProfileLayout";
 
-export default function EWalletPage({form:{form, loading, error, isCopied, isValid, onChange, onClick, onCopyText}}) {
+export default function EWalletPage({form:{form, loading, error, isValid, onChange, onClick}}) {
     
     return (
     <ProfileLayout>
@@ -20,23 +20,17 @@ export default function EWalletPage({form:{form, loading, error, isCopied, isVal
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>BTC</td>
-                            <td>10</td>
-                            <td>1</td>                            
-                            <td>0.2</td>                           
-                        </tr>
-                        <tr>
-                            <td>LTC</td>
-                            <td>40</td>
-                            <td>3</td>                            
-                            <td>0.5</td>                           
-                        </tr>
+                        {form.Wallets?.map((opt, index) => {
+                            return(<tr key={index}>
+                                <td>{opt.currency}</td>
+                                <td>{opt.capital}</td>                            
+                                <td>{opt.roi}</td>                            
+                                <td>{opt.commission}</td>                    
+                            </tr>);
+                        })}
                     </tbody>
                 </table>                
             </div>
-           
-           
         </div>        
     </ProfileLayout>
     );

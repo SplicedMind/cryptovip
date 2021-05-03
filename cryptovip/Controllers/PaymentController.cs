@@ -41,12 +41,60 @@ namespace cryptovip.Controllers
             return Ok(_responseModel);
         }
 
+        [HttpGet("transactions")]
+        public IActionResult GetTransaction(string accountnumber)
+        {
+            try
+            {
+                List<TransactionModel> trans = Util.GetTransactions(accountnumber, _context);
+                _responseModel.Value = trans;
+            }
+            catch (Exception ex)
+            {
+                _responseModel.Error = ex.Message;
+                _responseModel.Value = ex;
+            }
+            return Ok(_responseModel);
+        }
+
+        [HttpGet("address")]
+        public IActionResult GetAddress(byte currencyid, string accountnumber)
+        {
+            try
+            {
+                var address = Util.GetAddress(currencyid, accountnumber, _context);
+                _responseModel.Value = address;
+            }
+            catch (Exception ex)
+            {
+                _responseModel.Error = ex.Message;
+                _responseModel.Value = ex;
+            }
+            return Ok(_responseModel);
+        }
+
         [HttpPost("makepayment")]
         public IActionResult MakePayment(PaymentModel payment)
         {
             try
             {
                 PaymentOptionModel payOpt = Util.MakePayment(payment, _context);
+                _responseModel.Value = payOpt;
+            }
+            catch (Exception ex)
+            {
+                _responseModel.Error = ex.Message;
+                _responseModel.Value = ex;
+            }
+            return Ok(_responseModel);
+        }
+
+        [HttpPost("withdrawfunds")]
+        public IActionResult Withdraw(WithdrawalModel withdrawal)
+        {
+            try
+            {
+                PaymentOptionModel payOpt = Util.WithdrawFunds(withdrawal, _context);
                 _responseModel.Value = payOpt;
             }
             catch (Exception ex)

@@ -13,7 +13,7 @@ export default function WithdrawFundsPage({form:{form, loading, error, isValid, 
                 <form>
                     <div className="row mb-3">
                         <label htmlFor="currencyid" className="form-label col-md-4">Currency</label>
-                        <select id="currencyid" className="form-control col-md-8"  onChange={onChange} disabled={form.fundsData}>
+                        <select id="currencyid" className="form-control col-md-8"  onChange={onChange} disabled={form.withdrawInfo}>
                             <option value={0}>Select Currency</option>
                             {form.Options?.map((opt, index) => {
                                 return(<option key={index} value={opt.id}>{opt.currency}</option>); 
@@ -22,17 +22,17 @@ export default function WithdrawFundsPage({form:{form, loading, error, isValid, 
                     </div>
                     <div className="row mb-3">
                         <label htmlFor="amount" className="form-label col-md-4">Amount</label>
-                        <input type="number" id="amount" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.fundsData}/>
+                        <input type="number" id="amount" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.withdrawInfo}/>
                     </div>
                     <div className="row mb-3">
                         <label htmlFor="address" className="form-label col-md-4">Address</label>
-                        <input id="address" type="text" className="form-control col-md-8" autoComplete="off" onChange={onChange}/>
+                        <input id="address" type="text" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.withdrawInfo}/>
                     </div>
                     <div className="row mb-3">
                         <label htmlFor="network" className="form-label col-md-4">Network</label>
-                        <input id="network" type="text" className="form-control col-md-8" autoComplete="off" onChange={onChange}/>
+                        <input id="network" type="text" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.withdrawInfo}/>
                     </div>
-                    <button type="submit" onClick={onClick} className="btn btn-success btn-sm offset-md-4" disabled={!isValid}>Withdraw</button>
+                    <button type="submit" onClick={onClick} className="btn btn-success btn-sm offset-md-4" disabled={!isValid || (isValid && form.withdrawInfo)}>Withdraw</button>
                 </form>
             </div>
         </div>        

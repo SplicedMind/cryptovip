@@ -10,7 +10,8 @@ export default() =>{
         }
     } = useContext(GlobalContext)
 
-    const [form, setForm] = useState({});
+    const [form, setForm] = useState({accountNumber: JSON.parse(sessionStorage.user).vipAccountNumber});
+    
     const [isCopied, setIsCopied] = useState(false);
 
     const onClick = (e) =>{

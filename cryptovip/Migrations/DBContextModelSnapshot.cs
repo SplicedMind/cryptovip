@@ -17,7 +17,7 @@ namespace cryptovip.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.4");
 
-            modelBuilder.Entity("crytopVipDb.Entities.Accounts", b =>
+            modelBuilder.Entity("crytopVipDb.Entities.Account", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -27,12 +27,25 @@ namespace cryptovip.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<decimal>("Capital")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("Commission")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("Currency")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Network")
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
                     b.Property<byte?>("PaymentOptionID")
                         .HasColumnType("tinyint");
+
+                    b.Property<decimal>("ROI")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("ReceivingAddress")
                         .HasMaxLength(100)
@@ -53,7 +66,7 @@ namespace cryptovip.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("crytopVipDb.Entities.PaymentOptions", b =>
+            modelBuilder.Entity("crytopVipDb.Entities.PaymentOption", b =>
                 {
                     b.Property<byte>("ID")
                         .ValueGeneratedOnAdd()
@@ -97,7 +110,7 @@ namespace cryptovip.Migrations
                     b.ToTable("SecurityQuestions");
                 });
 
-            modelBuilder.Entity("crytopVipDb.Entities.Transactions", b =>
+            modelBuilder.Entity("crytopVipDb.Entities.Transaction", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -121,6 +134,9 @@ namespace cryptovip.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.Property<decimal>("Debit")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("Fee")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<byte?>("PaymentOptionID")
@@ -245,9 +261,9 @@ namespace cryptovip.Migrations
                     b.ToTable("UserSecurityQuestionAnswers");
                 });
 
-            modelBuilder.Entity("crytopVipDb.Entities.Accounts", b =>
+            modelBuilder.Entity("crytopVipDb.Entities.Account", b =>
                 {
-                    b.HasOne("crytopVipDb.Entities.PaymentOptions", "PaymentOption")
+                    b.HasOne("crytopVipDb.Entities.PaymentOption", "PaymentOption")
                         .WithMany()
                         .HasForeignKey("PaymentOptionID");
 
@@ -260,9 +276,9 @@ namespace cryptovip.Migrations
                     b.Navigation("UserProfile");
                 });
 
-            modelBuilder.Entity("crytopVipDb.Entities.Transactions", b =>
+            modelBuilder.Entity("crytopVipDb.Entities.Transaction", b =>
                 {
-                    b.HasOne("crytopVipDb.Entities.PaymentOptions", "PaymentOption")
+                    b.HasOne("crytopVipDb.Entities.PaymentOption", "PaymentOption")
                         .WithMany()
                         .HasForeignKey("PaymentOptionID");
 

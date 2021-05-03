@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace crytopVipDb.Entities
 {
-    [Index(new string[] { nameof(AccountNumber), nameof(Currency) }, IsUnique = true, Name = nameof(AccountNumber)+"_"+nameof(Currency))]
-    public class Accounts
+    //[Index("AccountNumber", IsUnique = false, Name = nameof(AccountNumber))]
+    [Index(nameof(Status), IsUnique = false, Name = nameof(Status))]
+    public class Transaction
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -22,9 +23,18 @@ namespace crytopVipDb.Entities
         [ForeignKey("Currency")]
         public string Currency { get; set; }
 
-        public PaymentOptions PaymentOption { get; set; }
+        public PaymentOption PaymentOption { get; set; }
 
-        [MaxLength(100)]
-        public string ReceivingAddress { get; set; }
+        public DateTime Created { get; set; }
+
+        public DateTime Approved { get; set; }
+
+        public decimal Debit { get; set; }
+
+        public decimal Credit { get; set; }
+
+        public decimal Fee { get; set; }
+
+        public PaymentStatus Status { get; set; }
     }
 }
