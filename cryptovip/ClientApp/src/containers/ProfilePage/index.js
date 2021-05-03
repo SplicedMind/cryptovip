@@ -4,7 +4,7 @@ import useForm from 'containers/ProfilePage/useForm';
 
 
 const ProfileContainer = () =>{
-    return (<ProfilePage />)
+    return (<ProfilePage form={useForm()}/>)
 };
 
 export default ProfileContainer;

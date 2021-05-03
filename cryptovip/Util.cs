@@ -38,9 +38,39 @@ namespace cryptovip
                 throw new Exception($"{user.Email} has been associated with another user account, please use a different e-mal address");
             }
             dBContext.Users.Add(user);
-            dBContext.SaveChanges();        
+            dBContext.SaveChanges();
 
             return (UserProfileModel)dBContext.UserProfiles.Where(x => x.UserName == user.Email).FirstOrDefault();
+        }
+
+        public static UserProfileModel UpdateProfile(UserProfileModel _p, DBContext dBContext)
+        {
+            UserProfile profile = dBContext.UserProfiles.Where(x => x.UserName == _p.UserName).FirstOrDefault();
+            if (profile == null)
+            {
+                throw new Exception($"{_p.UserName} not found");
+            }
+
+            profile.DateOfBirth = _p.DateOfBirth;
+            profile.Phone = _p.Phone;
+            profile.Address = _p.HomeAddress;
+
+            dBContext.Entry(profile).State = EntityState.Modified;
+            dBContext.SaveChanges();
+
+            return (UserProfileModel)dBContext.UserProfiles.Where(x => x.UserName == _p.UserName).FirstOrDefault();
+        }
+
+        public static UserProfileModel GetProfile(string username, DBContext dBContext)
+        {
+            UserProfileModel profile = (UserProfileModel)dBContext.UserProfiles.Where(x => x.UserName == username).FirstOrDefault();
+
+            if (profile == null)
+            {
+                throw new Exception($"{username} not found");
+            }
+
+            return profile;
         }
 
         public static List<PaymentOptionModel> GetPaymentOptions(DBContext dBContext)
@@ -50,17 +80,18 @@ namespace cryptovip
 
         public static PaymentOptionModel MakePayment(PaymentModel payment, DBContext dBContext)
         {
+            var payOptionInfo = dBContext.PaymentOptions.Where(x => x.ID == payment.CurrencyID).Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Currency = x.Currency, Network = x.Network, MinimumConfirmation = x.MinimumConfirmation }).FirstOrDefault();
             dBContext.Transactions.Add(new Transactions
             {
                 AccountNumber = payment.AccountNumber ?? "test account",
                 Debit = payment.Amount,
-                Currency = payment.Currency,
+                Currency = payOptionInfo.Currency,
                 Status = PaymentStatus.Pending,
                 Created = DateTime.UtcNow
             });
             dBContext.SaveChanges();
 
-            return dBContext.PaymentOptions.Where(x => x.Currency == payment.Currency).Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Currency = x.Currency, Network = x.Network, MinimumConfirmation = x.MinimumConfirmation }).FirstOrDefault();
+            return payOptionInfo;
         }
 
         public static void sendEmail(string to, string subject, string body, bool ishtml, MemoryStream[] attachmentStreams = null, string[] attachmentNames = null,
@@ -92,7 +123,7 @@ namespace cryptovip
 
         internal static void VerifyEmail(string email, DBContext dBContext)
         {
-            if(!dBContext.UserProfiles.Any(x => x.UserName == email && x.Enabled))
+            if (!dBContext.UserProfiles.Any(x => x.UserName == email && x.Enabled))
             {
                 bool exist = true;
                 string accNum;
@@ -109,19 +140,19 @@ namespace cryptovip
                 while (exist);
 
                 var user = dBContext.UserProfiles.Where(x => x.UserName == email).FirstOrDefault();
-                if(user != null)
+                if (user != null)
                 {
                     user.Enabled = true;
                     user.VIPAccountNumber = accNum;
                     dBContext.Entry(user).State = EntityState.Modified;
                     dBContext.SaveChanges();
-                }                
-            }            
+                }
+            }
         }
 
         internal static string GenerateAccountNumber()
         {
-           return RandomNumberGenerator.GetInt32(0, 9999999).ToString("D8");            
+            return RandomNumberGenerator.GetInt32(0, 9999999).ToString("D8");
         }
     }
 }

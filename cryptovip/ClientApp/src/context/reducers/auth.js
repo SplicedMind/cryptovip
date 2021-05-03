@@ -1,11 +1,16 @@
-import {LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS, ADDFUNDS_ERROR, ADDFUNDS_LOADING, ADDFUNDS_SUCCESS,
-    SIGNUP_ERROR, SIGNUP_LOADING, SIGNUP_SUCCESS} from '../../constants/actionTypes/index';
+import {
+    LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS, 
+    ADDFUNDS_ERROR, ADDFUNDS_LOADING, ADDFUNDS_SUCCESS,
+    SIGNUP_ERROR, SIGNUP_LOADING, SIGNUP_SUCCESS, 
+    PROFILE_ERROR, PROFILE_LOADING, PROFILE_SUCCESS
+} from '../../constants/actionTypes/index';
 
 const auth = (state, {payload, type}) => {
     switch(type){
         case SIGNUP_LOADING:
         case LOGIN_LOADING:    
-        case ADDFUNDS_LOADING:    
+        case ADDFUNDS_LOADING:
+        case PROFILE_LOADING:
             return {
                 ...state,
                  auth:{
@@ -32,7 +37,7 @@ const auth = (state, {payload, type}) => {
                      login: payload
                 },
             };    
-        case ADDFUNDS_SUCCESS:  
+        case ADDFUNDS_SUCCESS: 
             return {
                 ...state,
                 auth:{
@@ -41,9 +46,19 @@ const auth = (state, {payload, type}) => {
                     addfundsData: payload
                 },
             };
+        case PROFILE_SUCCESS:
+            return{
+                ...state,
+                auth:{
+                    ...state.auth,
+                    loading:false,
+                    profile: payload
+                },
+            };
         case SIGNUP_ERROR:
         case LOGIN_ERROR:
         case ADDFUNDS_ERROR:
+        case PROFILE_ERROR:
             return {
                 ...state,
                  auth:{

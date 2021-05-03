@@ -16,11 +16,11 @@ export default function AddFundsPage({form:{form, loading, error, isCopied, isVa
             <div className="row col-md-6 justify-content-start">
                 <form>
                     <div className="row mb-3">
-                        <label htmlFor="currency" className="form-label col-md-4">Currency</label>
-                        <select id="currency" className="form-control col-md-8"  onChange={onChange} disabled={form.fundsData}>
+                        <label htmlFor="currencyid" className="form-label col-md-4">Currency</label>
+                        <select id="currencyid" className="form-control col-md-8"  onChange={onChange} disabled={form.fundsData}>
                             <option value={0}>Select Currency</option>
                             {form.Options?.map((opt, index) => {
-                                return(<option key={index} value={opt.id}>{opt.channel}</option>); 
+                                return(<option key={index} value={opt.id}>{opt.currency}</option>); 
                             })}
                         </select>
                     </div>
@@ -38,7 +38,7 @@ export default function AddFundsPage({form:{form, loading, error, isCopied, isVa
                     <hr/>
                     <div className="row">
                         <div className="col-md-8">
-                            <h6>Send the desired amount to the address below </h6>
+                            <p>Send the desired amount to the address below. </p>
                             <div className="form-group">
                                 <label className="form-label">Address</label>
                                 <div className="form-control">

@@ -92,8 +92,8 @@ namespace cryptovip.Controllers
             return Ok(_responseModel);
         }
 
-        [HttpPut]
-        public ActionResult UpdateUser(UserModel user)
+        [HttpPost("profile")]
+        public ActionResult UpdateProfile(UserProfileModel user)
         {
             return Ok();
         }

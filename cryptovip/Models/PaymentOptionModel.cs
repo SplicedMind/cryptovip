@@ -2,7 +2,7 @@
 {
     public class PaymentOptionModel
     {
-        public int Id { get; internal set; }
+        public byte Id { get; internal set; }
 
         public string Currency { get; internal set; }
 

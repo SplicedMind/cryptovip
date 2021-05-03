@@ -7,6 +7,7 @@ import { useHistory, useLocation } from 'react-router';
 
 
 const RenderRoute = (route) =>{
+   
     const history = useHistory();
     const {pathname} = useLocation();
     if(route.needsAuth && !isAuthenticated()){

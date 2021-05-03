@@ -1,26 +1,26 @@
 import axiosInstance from '../../helpers/axiosInstance';
-import {ADDFUNDS_ERROR, ADDFUNDS_LOADING, ADDFUNDS_SUCCESS} from '../../constants/actionTypes/index';
+import {PROFILE_ERROR, PROFILE_LOADING, PROFILE_SUCCESS} from '../../constants/actionTypes/index';
 
-export const addfunds = ({amount, currencyid}) => (dispatch) =>{
+export const saveProfile = (form) => (dispatch) =>{
     dispatch({
-        type:ADDFUNDS_LOADING
+        type:PROFILE_LOADING
     });
-
+debugger
     axiosInstance()
-        .post('payment/makepayment',{amount, currencyid})
+        .post('userProfile', form)
         .then((res) => {
             console.log('res', res);    
                    
             if (res.data.success) {    
                 dispatch({
-                    type:ADDFUNDS_SUCCESS,
+                    type:PROFILE_SUCCESS,
                     payload:res.data
                 });
             }
             else 
             {
                 dispatch({
-                    type:ADDFUNDS_ERROR,
+                    type:PROFILE_ERROR,
                     payload: res.data.error
                 });
             }            
@@ -28,7 +28,7 @@ export const addfunds = ({amount, currencyid}) => (dispatch) =>{
         .catch((err) => {
             console.log('err',err)
             dispatch({
-                type:ADDFUNDS_ERROR,
+                type:PROFILE_ERROR,
                 payload: err
             });
         });

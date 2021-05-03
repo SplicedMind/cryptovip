@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace crytopVipDb.Entities
 {
-    //[Index(nameof(UserName), IsUnique = true, Name = nameof(UserName))]
     public class User
     {
         [Key]

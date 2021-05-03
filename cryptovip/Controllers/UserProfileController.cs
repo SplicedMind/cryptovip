@@ -27,9 +27,22 @@ namespace cryptovip.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string username)
         {
-            return Ok(new UserProfileModel[] { });
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    UserProfileModel userProfile = Util.GetProfile(username, _context);
+                    _responseModel.Value = userProfile;                    
+                }
+                catch (Exception ex)
+                {
+                    _responseModel.Error = ex.Message;
+                    _responseModel.Value = ex;
+                }
+            }
+            return Ok(_responseModel);
         }
 
         [HttpGet("{id}", Name = "Get")]
@@ -39,9 +52,27 @@ namespace cryptovip.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] UserProfileModel value)
+        public IActionResult Create(UserProfileModel profile)
         {
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    UserProfileModel userProfile = Util.UpdateProfile(profile, _context);
+                    _responseModel.Value = userProfile;
+
+                }
+                catch (Exception ex)
+                {
+                    _responseModel.Error = ex.Message;
+                    _responseModel.Value = ex;
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+            return Ok(_responseModel);
         }
 
         [HttpPut("{id}")]

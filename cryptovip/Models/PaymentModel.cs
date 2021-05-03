@@ -2,7 +2,7 @@
 {
     public class PaymentModel
     {
-        public string Currency { get; set; }
+        public byte CurrencyID { get; set; }
 
         public decimal Amount { get; set; }
 

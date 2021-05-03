@@ -26,6 +26,13 @@ namespace crytopVipDb.Entities
         public DateTime DateOfBirth { get; set; }
 
         [MaxLength(20)]
+        [DataType(DataType.PhoneNumber)]
+        public string Phone { get; set; }
+
+        [MaxLength(500)]
+        public string Address { get; set; }
+
+        [MaxLength(20)]
         public string VIPAccountNumber { get; set; }        
 
         public bool Enabled { get; set; }

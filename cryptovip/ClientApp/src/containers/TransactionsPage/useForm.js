@@ -9,13 +9,12 @@ export default() =>{
             auth :{loading, error, addfundsData}
         }
     } = useContext(GlobalContext)
-
+debugger;
     const [form, setForm] = useState({});
     const [isCopied, setIsCopied] = useState(false);
 
     const onClick = (e) =>{
         e.preventDefault();
-        debugger
         addfunds(form)(authDispatch);
     };
 
@@ -52,8 +51,8 @@ export default() =>{
             setForm({...form, fundsData: addfundsData.value});            
         }
     }, [addfundsData]);
-
-    const isValid = !!form.amount && !!form.currencyid;
+    debugger;
+    const isValid = !!form.amount && !!form.currency;
 
     return {form, loading, error, isCopied, isValid, onChange, onClick, onCopyText};
 };

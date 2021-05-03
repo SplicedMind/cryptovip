@@ -12,6 +12,8 @@ namespace cryptovip.Models
         public DateTime DateOfBirth { get; set; }
         public string VIPAccountNumber { get; set; }
         public string UserName { get; set; }
+        public string Phone { get; set; }
+        public string HomeAddress { get; set; }
         public string ReferralUserName { get; set; }
         public bool Enabled { get; set; }
         public string Token { get; set; }
@@ -22,7 +24,7 @@ namespace cryptovip.Models
             {
                 return new UserProfileModel
                 {
-                    DateOfBirth = _.DateOfBirth,
+                    DateOfBirth = _.DateOfBirth.Date,
                     Enabled = _.Enabled,
                     FirstName = _.FirstName,
                     Id = _.ID,
@@ -30,6 +32,9 @@ namespace cryptovip.Models
                     MiddleName = _.MiddleName,
                     UserName = _.UserName,
                     VIPAccountNumber = _.VIPAccountNumber,
+                    HomeAddress = _.Address,
+                    Phone = _.Phone,
+                    
                 };
             }
             return null;

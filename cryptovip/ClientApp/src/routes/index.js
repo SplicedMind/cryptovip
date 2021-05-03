@@ -5,6 +5,9 @@ import AddFundsPage from "containers/AddFundsPage/index";
 import SignupPage from 'containers/SignupPage/index';
 import TermsConditions from "containers/TermsCondition/TermsCondition";
 import PrivacyPolicy from "containers/PrivacyPolicy/PrivacyPolicy";
+import WithdrawFundsPage from "containers/WithdrawFundsPage/index";
+import TransactionsPage from "containers/TransactionsPage/index";
+import EWalletPage from "containers/EWalletPage/index";
 
 const routes = [    
     {
@@ -15,13 +18,13 @@ const routes = [
     },
     {
         path: "/dashboard/withdrawfunds",
-        component: ProfilePage,
+        component: WithdrawFundsPage,
         title: "Withdraw Funds",
         needsAuth:true
     },
     {
         path: "/dashboard/transactions",
-        component: ProfilePage,
+        component: TransactionsPage,
         title: "Transaction",
         needsAuth:true
     },
@@ -33,8 +36,8 @@ const routes = [
     },
     {
         path: "/dashboard",
-        component: ProfilePage,
-        title: "Dashboard",
+        component: EWalletPage,
+        title: "E-Wallet",
         needsAuth:true
     },
     {
