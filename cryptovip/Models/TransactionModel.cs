@@ -24,7 +24,7 @@ namespace cryptovip.Models
             {
                 return new TransactionModel
                 {
-                    Approved = t.Approved.ToShortDateString(),
+                    Approved = t.Approved == DateTime.MinValue ? "-" : t.Approved.ToShortDateString(),
                     Created = t.Created.ToShortDateString(),
                     Credit = t.Credit,
                     Currency = t.Currency,
