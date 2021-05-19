@@ -35,7 +35,7 @@ export default function PressSection() {
                 <GridItem xs={12} sm={12} md={8}>
                     <h3 className={classes.title}>How To Invest</h3>
                     <ul className={classes.typo} style={{ color: "black" }}>
-                        <li>Get a Cryptocurrency wallet ( e.g visit <Link to="crypto.com" target="_blank">crypto.com</Link>)</li>
+                        <li>Get a Cryptocurrency wallet ( e.g visit <a href="https://crypto.com/" target="_blank">crypto.com</a>)</li>
                         <li> Fund your Cryptocurrency wallet with BTC, ETH, USDT or LTC.</li>
                         <li>Sign up with Crypto Vault Investment.</li>
                         <li>Deposit your investment capital.</li>

@@ -16,6 +16,7 @@ namespace cryptovip.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string ReferralUserName { get; set; }
 
         internal string GetPassword()
         {
@@ -41,7 +42,8 @@ namespace cryptovip.Models
                     {
                         UserName = model.Email,
                         FirstName = model.FirstName,
-                        LastName = model.LastName
+                        LastName = model.LastName,
+                        ReferralUserName = model.ReferralUserName
                     }
                 };
             }

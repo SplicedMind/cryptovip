@@ -24,7 +24,7 @@ export default function Footer(props) {
       <div className={classes.container}>        
         <address className={classes.right}>
             Address: 2437 Fair Oaks Blvd, Sacramento, CA 95825. <br/>
-            E-mail: <Link to="mailto:support@cryptovip.org" rel="noopener noreferrer">support@cryptovip.org</Link>
+            E-mail: <a href="mailto:support@cryptovip.org" rel="noopener noreferrer">support@cryptovip.org</a>
           </address>                 
       </div>
       <div className={classes.container}>
