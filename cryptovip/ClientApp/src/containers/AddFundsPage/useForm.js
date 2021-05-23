@@ -16,7 +16,6 @@ export default() =>{
 
     const onClick = (e) =>{
         e.preventDefault();
-        debugger
         addfunds(form)(authDispatch);
     };
 

@@ -1,5 +1,4 @@
 using cryptovip.Models;
-using crytopVipDb;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

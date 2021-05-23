@@ -6,6 +6,6 @@
 
         public decimal Amount { get; set; }
 
-        public string AccountNumber { get; internal set; }
+        public string AccountNumber { get; set; }
     }
 }
