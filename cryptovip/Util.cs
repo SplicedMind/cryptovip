@@ -110,7 +110,7 @@ namespace cryptovip
                 {
                     AccountNumber = payment.AccountNumber,
                     Currency = payOptionInfo.Currency,
-                    Capital = payment.Amount
+                    //Capital = payment.Amount
                 });
             }
 
