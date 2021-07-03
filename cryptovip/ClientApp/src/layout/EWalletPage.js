@@ -31,6 +31,25 @@ export default function EWalletPage({form:{form, loading, error, isValid, onChan
                     </tbody>
                 </table>                
             </div>
+            <div>
+                <p>
+                    To add funds to your e-wallet:
+                    <ol>
+                        <li>Buy crypto currency (Bitcoin, Tether, Litecoin, e.t.c.) from <a href="https://crypto.com" target="_blank">crypto.com</a> or any other crypto currency exchange website.</li>
+                        <li>On your dashboard, click on "Add Funds" and fill in the currency (e.g. Tether) and the amount (e.g. 10,000).</li>
+                        <li>Click on "Next button".</li>
+                        <li>Copy the displayed crypto wallet address.</li>
+                        <li>Transfer the desired amount from your wallet to the address.</li>
+                    </ol>
+                </p>
+                <p>
+                    Note:
+                    <ul>
+                        <li>Before adding fund, you must generate an account number by clicking the email verification link sent to your email.</li>
+                        <li>You can only withdraw funds to the wallet address the capital came from.</li>
+                    </ul> 
+                </p>
+            </div>
         </div>        
     </ProfileLayout>
     );

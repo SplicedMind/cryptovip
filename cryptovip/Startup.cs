@@ -37,6 +37,13 @@ namespace cryptovip
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddAuthentication(au =>
             {
                 au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
