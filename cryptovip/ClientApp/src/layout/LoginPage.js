@@ -82,6 +82,34 @@ export default function LoginPage({form :{form, loading, formValid,  error, sign
                                     icon="info_outline"
                                 />
                     }
+                    {
+                        form?.V && form?.Verified && <SnackbarContent
+                        message={
+                            <span>
+                                <b>Success:</b> {
+                                `${form.Verification}`
+                                }
+                            </span>
+                        }
+                        close
+                        color="success"
+                        icon="info_outline" 
+                    />
+                    }
+                    {
+                        form?.V && !form?.Verified && <SnackbarContent
+                        message={
+                            <span>
+                                <b>ERROR:</b> {
+                                `${form.Verification}`
+                                }
+                            </span>
+                        }
+                        close
+                        color="danger"
+                        icon="info_outline" 
+                    />
+                    }
                     <GridContainer justify="center">
                         <GridItem xs={12} sm={12} md={4}>
                             <Card className={classes[cardAnimaton]}>

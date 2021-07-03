@@ -113,15 +113,16 @@ namespace cryptovip.Controllers
         [HttpGet("verifyemail")]
         public IActionResult VerifyEmail(string token)
         {
+            string email = "";
             try
             {
-                string email = ValidateEmailToken(token).FindFirstValue("username");
+                email = ValidateEmailToken(token).FindFirstValue("username");
                 Util.VerifyEmail(email, _context);
-                return Ok("Email verified successfully.");
+                return base.Redirect($"https://cryptovip.org/login?verified?{email}");
             }
-            catch(Exception ex)
+            catch
             {
-                return Ok("Email verification failed.");
+                return base.Redirect($"https://cryptovip.org/login?failed?{email}");
             }
         }
 

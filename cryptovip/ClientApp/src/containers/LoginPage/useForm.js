@@ -32,6 +32,19 @@ export default() =>{
         }
     },[login]);
 
+    useEffect(() =>{
+        debugger
+        let url = window.location.href.split("?");
+        if(url.length == 3){
+            form.V = true;
+            form.Verified = url[1] === 'verified' ;
+            form.Verification = `${url[2]} ${form.Verified ? "verified successfully!" : "verification failed!"}`;
+        }
+        else{
+            form.V = false;
+        }      
+    },[]);
+
     const formValid = !form.email?.length || !form.password?.length;
     return {form, loading, error, signup, formValid, onChange, onSubmit};
 };
