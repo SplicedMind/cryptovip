@@ -13,14 +13,14 @@ namespace cryptovip
 {
     public static class Util
     {
-        public static UserProfileModel Signin(UserModel user, DBContext dBContext)
+        public static User Signin(UserModel user, DBContext dBContext)
         {
             string password = user.GetPassword();
             User _user = dBContext.Users.Where(x => x.UserName == user.Email && x.Password == password)
                 .Include(x => x.UserProfile).FirstOrDefault();
             if (_user != null)
             {
-                return (UserProfileModel)_user.UserProfile;
+                return _user;
             }
             return null;
         }
@@ -29,7 +29,7 @@ namespace cryptovip
         {
             if (dBContext.Users.Any(x => x.UserName == user.Email))
             {
-                throw new Exception($"{user.Email} has been associated with another user account, please use a different e-mal address");
+                throw new Exception($"{user.Email} has been associated with another user account, please use a different e-mail address");
             }
             dBContext.Users.Add(user);
             dBContext.SaveChanges();

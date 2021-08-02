@@ -17,6 +17,8 @@ namespace crytopVipDb.Entities
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        public bool IsAdmin { get; set; }
+
         public UserProfile UserProfile { get; set; }
 
         public IList<UserSecurityQuestionAnswer> UserSecurityQuestionAnswers { get; set; }

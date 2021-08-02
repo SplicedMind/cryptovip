@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using cryptovip.Models;
+using crytopVipDb.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -47,13 +48,14 @@ namespace cryptovip.Controllers
                 {
                     UserProfileModel userProfile = Util.Signup(user, _context);
                     _responseModel.Value = userProfile;
-                    Util.sendEmail(user.Email, "Welcome To Crypto VIP",
-                     "<html><head><style> a { background-color: red; color: white; padding: 1em 1.5em; text-decoration: none; text-transform: uppercase; } a:hover {background-color: #555;} a:active {background-color: black; a:visited { background - color: #ccc;}</style></head>" +
-                     $"<body><p>Hello {user.FirstName},</p> <p>We are glad to have you onboard.</p> <br/>" +
-                     $"<p><a href='{_configuration["BaseUrl"]}/user/verifyemail?token={GetMailVerificationToken(user)}'>Click here to verify your email.</a></p>" +
-                     $"</body></html>",
-                     true,null,null, _configuration["Smtp:From"], _configuration["Smtp:Username"],
-                     _configuration["Smtp:Password"], _configuration["Smtp:Server"], Convert.ToInt32(_configuration["Smtp:Port"]), true, _configuration["Smtp:Name"]);
+                    Util.VerifyEmail(user.Email, _context);
+                    //Util.sendEmail(user.Email, "Welcome To Crypto Vault Investment Platform Platform",
+                    // "<html><head><style> a { background-color: red; color: white; padding: 1em 1.5em; text-decoration: none; text-transform: uppercase; } a:hover {background-color: #555;} a:active {background-color: black; a:visited { background - color: #ccc;}</style></head>" +
+                    // $"<body><p>Hello {user.FirstName},</p> <p>We are glad to have you onboard.</p> <br/>" +
+                    // $"<p><a href='{_configuration["BaseUrl"]}/user/verifyemail?token={GetMailVerificationToken(user)}'>Click here to verify your email.</a></p>" +
+                    // $"</body></html>",
+                    // true,null,null, _configuration["Smtp:From"], _configuration["Smtp:Username"],
+                    // _configuration["Smtp:Password"], _configuration["Smtp:Server"], Convert.ToInt32(_configuration["Smtp:Port"]), true, _configuration["Smtp:Name"]);
 
                 }
                 catch (Exception ex)
@@ -128,7 +130,8 @@ namespace cryptovip.Controllers
 
         private UserProfileModel Authenticate(UserModel user)
         {
-            UserProfileModel _user = Util.Signin(user, _context);
+            User _user = Util.Signin(user, _context);
+            UserProfileModel profile = null;
 
             if (_user != null)
             {
@@ -139,15 +142,18 @@ namespace cryptovip.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[] {
                         new Claim("username", _user.UserName),
-                        new Claim("enbaled", _user.Enabled.ToString())
+                        new Claim("enbaled", _user.UserProfile.Enabled.ToString()),
+                        new Claim("xrtui", _user.IsAdmin.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddMinutes(500),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(authKey), SecurityAlgorithms.HmacSha256Signature)
                 };
 
-                _user.Token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+                profile = (UserProfileModel)_user.UserProfile;
+                profile.xrtui = _user.IsAdmin;
+                profile.Token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
             }
-            return _user;
+            return profile;
         }
 
         private string GetMailVerificationToken(UserModel _user)

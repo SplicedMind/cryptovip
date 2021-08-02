@@ -1,12 +1,9 @@
-﻿using crytopVipDb;
+﻿using crytopVipDb.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace cryptovip.Models
 {
@@ -25,9 +22,10 @@ namespace cryptovip.Models
 
         public UserProfileModel Authenticate(UserModel user)
         {
-            UserProfileModel _user = Util.Signin(user, _dBcontext);
+            User _user = Util.Signin(user, _dBcontext);
+            UserProfileModel profile = null;
 
-            if(_user != null)
+            if (_user != null)
             {
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 byte[] authKey = Encoding.ASCII.GetBytes(_appData.AuthKey);
@@ -36,15 +34,18 @@ namespace cryptovip.Models
                 {
                     Subject = new ClaimsIdentity(new Claim[] {
                         new Claim("username", _user.UserName),
-                        new Claim("enbaled", _user.Enabled.ToString())
+                        new Claim("enbaled", _user.UserProfile.Enabled.ToString()),
+                        new Claim("xrtui", _user.IsAdmin.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddMinutes(500),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(authKey), SecurityAlgorithms.HmacSha256Signature)
                 };
 
-                _user.Token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+                profile = (UserProfileModel)_user.UserProfile;
+                profile.xrtui = _user.IsAdmin;
+                profile.Token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
             }
-            return _user;
+            return profile;
         }
     }
 }

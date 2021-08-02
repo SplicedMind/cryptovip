@@ -33,7 +33,7 @@ export default function Footer(props) {
                 to="" rel="noopener noreferrer"
                 className={classes.block}                
               >
-                 &copy; {1900 + new Date().getYear()}  Crypto Vault Investment
+                 &copy; {1900 + new Date().getYear()}  Crypto Vault Investment Platform
               </Link>
         </div>   
         <div className={classes.container}>

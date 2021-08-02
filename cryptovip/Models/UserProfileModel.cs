@@ -16,6 +16,7 @@ namespace cryptovip.Models
         public string HomeAddress { get; set; }
         public string ReferralUserName { get; set; }
         public bool Enabled { get; set; }
+        public bool xrtui { get; set; }
         public string Token { get; set; }
                 
         public static explicit operator UserProfileModel(UserProfile _)
