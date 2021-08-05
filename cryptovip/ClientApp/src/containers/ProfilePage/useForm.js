@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { saveProfile } from "context/actions/saveProfile";
 
 export default() =>{
+    debugger
     const {authDispatch, 
         authState:{
             auth :{loading, error, profile}

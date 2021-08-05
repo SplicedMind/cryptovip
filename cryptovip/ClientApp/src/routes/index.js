@@ -3,7 +3,7 @@ import LoginPage from "containers/LoginPage/index";
 import ProfilePage from "containers/ProfilePage/index"; 
 import AddFundsPage from "containers/AddFundsPage/index"; 
 import SignupPage from 'containers/SignupPage/index';
-import AdminPage from "layout/Admin";
+import AdminPage from "containers/AdminPage/index";
 import TermsConditions from "containers/TermsCondition/TermsCondition";
 import PrivacyPolicy from "containers/PrivacyPolicy/PrivacyPolicy";
 import WithdrawFundsPage from "containers/WithdrawFundsPage/index";

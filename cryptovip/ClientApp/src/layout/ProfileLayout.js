@@ -67,11 +67,10 @@ export default function ProfileLayout(props) {
                                         Transactions
                                     </Link>
                                     {
-                                        profile?.xrtui && <Link to="/dashboard/admin" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
-                                            Admin
-                                        </Link> 
-                                    }
-                                                                   
+                                        profile.xrtui && <Link to="/dashboard/admin" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                         Admin
+                                     </Link> 
+                                    }                                                                                                                                             
                                 </div>
                             </div>                            
                         </div>

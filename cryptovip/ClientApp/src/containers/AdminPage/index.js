@@ -1,10 +1,9 @@
 import React from 'react';
-import useForm from 'containers/EWalletPage/useForm';
 import AdminPage from 'layout/Admin';
+import useForm from 'containers/AdminPage/useForm';
 
 
-const AdminContainer = () =>{
- 
+const AdminContainer = () =>{ 
     return (<AdminPage form={useForm()} />)
 };
 
