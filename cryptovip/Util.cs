@@ -67,6 +67,21 @@ namespace cryptovip
             return profile;
         }
 
+        public static IList<UserProfileModel> GetProfiles(this DBContext dBContext)
+        {
+            return dBContext.UserProfiles.Select(x => (UserProfileModel)x).ToList();
+        }
+
+        public static IList<AdminTransactionModel> GetWithdrawals(this DBContext dBContext)
+        {
+            return dBContext.Transactions.Where(x => x.Debit > 0).Select(x => (AdminTransactionModel)x).ToList();
+        }
+
+        public static IList<AdminTransactionModel> GetDeposits(this DBContext dBContext)
+        {
+            return dBContext.Transactions.Where(x => x.Credit > 0).Select(x => (AdminTransactionModel)x).ToList();
+        }
+
         public static List<PaymentOptionModel> GetPaymentOptions(DBContext dBContext)
         {
             return dBContext.PaymentOptions.Select(x => new PaymentOptionModel { Id = x.ID, Address = x.Address, Currency = x.Currency, Network = x.Network }).ToList();
@@ -97,7 +112,7 @@ namespace cryptovip
                 AccountNumber = payment.AccountNumber,
                 Credit = payment.Amount,
                 Currency = payOptionInfo.Currency,
-                Status = PaymentStatus.Pending,
+                Status = PaymentStatus.Processing,
                 Created = DateTime.UtcNow
             });
 
@@ -128,7 +143,7 @@ namespace cryptovip
                 AccountNumber = withdrawal.AccountNumber,
                 Debit = withdrawal.Amount,
                 Currency = payOptionInfo.Currency,
-                Status = PaymentStatus.Pending,
+                Status = PaymentStatus.Processing,
                 Created = DateTime.UtcNow
             });
 

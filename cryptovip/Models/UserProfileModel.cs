@@ -25,7 +25,7 @@ namespace cryptovip.Models
             {
                 return new UserProfileModel
                 {
-                    DateOfBirth = _.DateOfBirth.Date,
+                    DateOfBirth = _.DateOfBirth,
                     Enabled = _.Enabled,
                     FirstName = _.FirstName,
                     Id = _.ID,

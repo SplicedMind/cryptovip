@@ -6,7 +6,6 @@ namespace crytopVipDb
 {
     public enum PaymentStatus
     {
-        Pending,
         Processing,
         Completed,
         Rejected,

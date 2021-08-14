@@ -1,20 +1,22 @@
 import React from "react";
 import ProfileLayout from "./ProfileLayout";
-import { Tabs, Tab, Row, Col, Nav } from "react-bootstrap";
-import DataTable from "react-data-table-component"
+import { Tab, Row, Col, Nav } from "react-bootstrap";
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory from 'react-bootstrap-table2-editor';
+import filterFactory from 'react-bootstrap-table2-filter';
 
-export default function AdminPage({form:{loading, form, error, onClick, onSubmit}}) {
+export default function AdminPage({form:{loading, profiles, deposits, withdrawals, error, profilesCols, fundsCols, onClick, onSubmit}}) {
     
     return (
     <ProfileLayout>
-        <div className="container my-4">
+        <div className="my-4">
             <div className="row col-md-6 justify-content-start">
                 <h4>Admin Page</h4>
             </div>
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                <Row>
-                    <Col sm={2}>
-                        <Nav variant="pills" className="flex-column">
+                <Row className="mb-2">
+                    <Col>
+                        <Nav variant="pills" className="flex-row">
                             <Nav.Item>
                                 <Nav.Link onClick={onClick} eventKey="profiles">User Profiles</Nav.Link>
                             </Nav.Item>
@@ -25,22 +27,61 @@ export default function AdminPage({form:{loading, form, error, onClick, onSubmit
                                 <Nav.Link  eventKey="withdrawfunds">Withdraw Funds</Nav.Link>
                             </Nav.Item>
                         </Nav>
-                    </Col>
-                    <Col sm={10}>
-                        <Tab.Content>
-                            <Tab.Pane eventKey="profiles">
-                                <DataTable title="" theme="solarized">
-
-                                </DataTable>
+                    </Col>                    
+                </Row>
+                <Row>
+                        <Tab.Content className="container">
+                            <Tab.Pane eventKey="profiles" className="table-responsive">
+                               <BootstrapTable className="table table-fluid table-sm"
+                               keyField='id'
+                                data={profiles}
+                                columns= {profilesCols} 
+                                bootstrap4={true} 
+                                striped
+                                hover
+                                condensed 
+                                cellEdit={ cellEditFactory({
+                                    mode: 'dbclick',
+                                    blurToSave: true
+                                }) }
+                                filter={ filterFactory() }
+                                //pagination={ paginationFactory() }
+                            />
                             </Tab.Pane>
                             <Tab.Pane eventKey="addfunds">
-                                <DataTable></DataTable>
+                                <BootstrapTable 
+                                    keyField='id' 
+                                    data={deposits} 
+                                    columns= {fundsCols} 
+                                    bootstrap4={true} 
+                                striped
+                                hover
+                                condensed 
+                                cellEdit={ cellEditFactory({
+                                    mode: 'dbclick',
+                                    blurToSave: true
+                                }) }
+                                filter={ filterFactory() }
+                            />
                             </Tab.Pane>
                             <Tab.Pane eventKey="withdrawfunds">
-                                <DataTable></DataTable>
+                                <BootstrapTable 
+                                    keyField='id' 
+                                    data={withdrawals} 
+                                    columns= {fundsCols} 
+                                    bootstrap4={true} 
+                                    striped
+                                    hover
+                                    condensed 
+                                    cellEdit={ cellEditFactory({
+                                        mode: 'dbclick',
+                                        blurToSave: true
+                                    }) }
+                                    filter={ filterFactory() }
+                                />
                             </Tab.Pane>
                         </Tab.Content>
-                    </Col>
+                    
                 </Row>
             </Tab.Container>
         </div>        
