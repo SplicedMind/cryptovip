@@ -41,7 +41,7 @@ export default (history = null) => {
 //         resolve(response);
 //       }),
 //     (error) => {
-//       debugger;
+//       ;
 //       if (!error.response) {
 //         return new Promise((resolve, reject) => {
 //           reject(error);

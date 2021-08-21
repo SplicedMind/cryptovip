@@ -25,7 +25,7 @@ export default() =>{
 
     useEffect(() =>{
         if (login) {
-            debugger;
+            ;
             sessionStorage.setItem("user", JSON.stringify(login.value));
             sessionStorage.setItem("token", login.value.token);
             history.push("/dashboard");
@@ -33,7 +33,7 @@ export default() =>{
     },[login]);
 
     useEffect(() =>{
-        debugger
+        
         let url = window.location.href.split("?");
         if(url.length == 3){
             form.V = true;

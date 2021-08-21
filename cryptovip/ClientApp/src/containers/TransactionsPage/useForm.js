@@ -26,7 +26,7 @@ export default() =>{
         .get(`/payment/transactions?accountnumber=${JSON.parse(sessionStorage.user).vipAccountNumber}`)
         .then((res) =>{
             if(res.data.success){
-                debugger;
+                ;
                 setForm({...form, Transaction: res.data.value});
             }
             else{

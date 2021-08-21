@@ -5,7 +5,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import filterFactory from 'react-bootstrap-table2-filter';
 
-export default function AdminPage({form:{loading, profiles, deposits, withdrawals, error, profilesCols, fundsCols, onClick, onSubmit}}) {
+export default function AdminPage({form:{loading, profiles, deposits, withdrawals, error, profilesCols, fundsCols, onClick, saveWithdrawals, saveAddFunds, saveProfiles}}) {
     
     return (
     <ProfileLayout>
@@ -42,7 +42,8 @@ export default function AdminPage({form:{loading, profiles, deposits, withdrawal
                                 condensed 
                                 cellEdit={ cellEditFactory({
                                     mode: 'dbclick',
-                                    blurToSave: true
+                                    blurToSave: true,
+                                    afterSaveCell: saveProfiles
                                 }) }
                                 filter={ filterFactory() }
                                 //pagination={ paginationFactory() }
@@ -59,7 +60,8 @@ export default function AdminPage({form:{loading, profiles, deposits, withdrawal
                                 condensed 
                                 cellEdit={ cellEditFactory({
                                     mode: 'dbclick',
-                                    blurToSave: true
+                                    blurToSave: true,
+                                    afterSaveCell: saveAddFunds
                                 }) }
                                 filter={ filterFactory() }
                             />
@@ -75,7 +77,8 @@ export default function AdminPage({form:{loading, profiles, deposits, withdrawal
                                     condensed 
                                     cellEdit={ cellEditFactory({
                                         mode: 'dbclick',
-                                        blurToSave: true
+                                        blurToSave: true,
+                                        afterSaveCell: saveWithdrawals
                                     }) }
                                     filter={ filterFactory() }
                                 />

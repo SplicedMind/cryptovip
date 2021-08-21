@@ -19,7 +19,7 @@ export default() =>{
     };
 
     const onChange = (e, val) =>{
-        debugger;
+        ;
         setForm({...form, [e.currentTarget.id]: e.currentTarget.value });
 
         if(e.currentTarget.id === "currencyid"){
@@ -27,7 +27,7 @@ export default() =>{
                 .get(`/payment/address?currencyid=${e.currentTarget.value}&accountnumber=${form.accountnumber}`)
                 .then((res) =>{
                     if(res.data.success){
-                        debugger;
+                        ;
                         setAddress(res.data.value[0])
                         //setForm({...form, address: res.data.value[0].address, network: res.data.value[0].network});
                     }

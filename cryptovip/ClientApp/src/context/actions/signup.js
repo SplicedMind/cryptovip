@@ -16,7 +16,7 @@ export const signup = (form) => (dispatch) => {
             });
         })
         .catch((err) => {
-            debugger
+            
             console.log('err',err)
             dispatch({
                 type:SIGNUP_ERROR,

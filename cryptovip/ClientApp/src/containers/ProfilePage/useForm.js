@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { saveProfile } from "context/actions/saveProfile";
 
 export default() =>{
-    debugger
+    
     const {authDispatch, 
         authState:{
             auth :{loading, error, profile}
@@ -29,7 +29,7 @@ export default() =>{
                 .get(`/userProfile?username=${JSON.parse(sessionStorage.user).userName}`)
                 .then((res) =>{
                     if(res.data.success){
-                        debugger;
+                        ;
                         setForm(res.data.value);
                         console.warn(res.data.value.dateOfBirth.split("T")[0])
                     }

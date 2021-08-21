@@ -67,6 +67,18 @@ namespace cryptovip
             return profile;
         }
 
+        public static UserProfile GetProfile(this DBContext dBContext, string username)
+        {
+            var profile = dBContext.UserProfiles.Where(x => x.UserName == username).FirstOrDefault();
+
+            if (profile == null)
+            {
+                throw new Exception($"Profile not found");
+            }
+
+            return profile;
+        }
+
         public static IList<UserProfileModel> GetProfiles(this DBContext dBContext)
         {
             return dBContext.UserProfiles.Select(x => (UserProfileModel)x).ToList();
@@ -75,6 +87,11 @@ namespace cryptovip
         public static IList<AdminTransactionModel> GetWithdrawals(this DBContext dBContext)
         {
             return dBContext.Transactions.Where(x => x.Debit > 0).Select(x => (AdminTransactionModel)x).ToList();
+        }
+
+        public static Transaction GetTransaction(this DBContext dBContext, long id)
+        {
+            return dBContext.Transactions.Where(x => x.ID == id).FirstOrDefault();
         }
 
         public static IList<AdminTransactionModel> GetDeposits(this DBContext dBContext)

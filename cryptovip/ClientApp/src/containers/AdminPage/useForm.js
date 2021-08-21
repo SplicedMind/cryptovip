@@ -34,6 +34,7 @@ export default () => {
       }
 
     const fundsColsMapper = (d, i)=>{
+        ;
         return {
             'id': i+1,
             'accountno': d.accountNo,
@@ -42,13 +43,21 @@ export default () => {
             'date': new Date(d.date).toLocaleDateString('en-GB'),
             'fee': d.fee,
             'status': d.status,
-            'approved': d.approved
+            'approved': d.approved,
+            'tid': d.tid
         }
     };
 
     const [profiles, setProfiles] = useState([]);
     const [deposits, setDeposits] = useState([]);
     const [withdrawals, setWithdrawals] = useState([]);
+
+    let [editedProfile, setEditedProfile] = useState({});
+    let [edtd, setEditedDeposit] = useState({});
+    let [edtw, setEditedWithdrawal] = useState({});
+
+    let [err, setError] = useState("");
+    let [success, setSuccess] = useState("");
 
     const profilesCols = [
         {
@@ -273,17 +282,76 @@ export default () => {
     }, []);
 
     useEffect(()=>{
-        debugger;
-    },[deposits]);
+        ;
+        if(editedProfile.hasOwnProperty('id')){
+            axiosInstance()
+        .post('/admin/profile', editedProfile)
+        .then((res) => {
+            console.log('res', res);            
+                     
+        })
+        .catch((err) => {
+            console.log('err',err)
+            
+        });
+        setEditedProfile({});
+        }        
+    },[editedProfile]);
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-    };
+    useEffect(()=>{
+        ;
+        if(edtd.hasOwnProperty('id')){
+            axiosInstance()
+        .post('/admin/deposit', {tid: edtd.tid, status: edtd.status, fee:edtd.fee, approved:edtd.approved})
+        .then((res) => {
+            console.log('res', res);            
+                     
+        })
+        .catch((err) => {
+            console.log('err',err)
+            
+        });
+        setEditedDeposit({});
+        }        
+    },[edtd]);
+
+    useEffect(()=>{
+        ;
+        if(edtw.hasOwnProperty('id')){
+            axiosInstance()
+        .post('/admin/withdrawal', {tid: edtw.tid, status: edtw.status, fee:edtw.fee, approved:edtw.approved})
+        .then((res) => {
+            console.log('res', res);            
+                     
+        })
+        .catch((err) => {
+            console.log('err',err)
+            
+        });
+        setEditedWithdrawal({});
+        }        
+    },[edtw]);
+
+    
+
 
     const onClick = (e, val) => {
         //setForm({ ...form, [e.currentTarget.id]: e.currentTarget.value });
     };
 
+    const saveWithdrawals = (oldValue, newValue, row, column) =>{
+        
+        setEditedWithdrawal(row);
+    }
 
-    return { profiles, deposits, withdrawals, loading, error, profilesCols, fundsCols, onClick, onSubmit };
+    const saveAddFunds = (oldValue, newValue, row, column) =>{
+        
+        setEditedDeposit(row);
+    }
+
+    const saveProfiles = (oldValue, newValue, row, column) =>{
+        setEditedProfile(row);
+    }
+
+    return { profiles, deposits, withdrawals, loading, error, profilesCols, fundsCols, onClick, saveWithdrawals, saveAddFunds, saveProfiles };
 };

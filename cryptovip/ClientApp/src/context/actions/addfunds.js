@@ -6,7 +6,7 @@ export const addfunds = ({currencyid, amount, accountNumber}) => (dispatch) =>{
         type:ADDFUNDS_LOADING
     });
 
-    debugger;
+    
     axiosInstance()
         .post('payment/makepayment', {currencyid, amount, accountNumber})
         .then((res) => {
