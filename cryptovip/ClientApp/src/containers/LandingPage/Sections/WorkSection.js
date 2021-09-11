@@ -11,11 +11,39 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
+import axiosInstance from "helpers/axiosInstance";
+import { useState } from "react";
 
 const useStyles = makeStyles(styles);
 
 export default function WorkSection() {
     const classes = useStyles();
+
+    const [message, setMessage] = useState({});
+
+    const onChange = (e) => {
+        setMessage({ ...message, [e.target.id]: e.target.value });
+    }
+
+    const sendMessage = () => {
+        debugger
+        axiosInstance()
+            .post('user/sendmessage', message)
+            .then((res) => {
+
+                if (res.data.success) {
+                   
+                }
+                else {
+                    
+                }
+            })
+            .catch((err) => {
+                console.log('err', err)
+                
+            });
+    }
+
     return (
         <div id='contact' className={classes.section}>
             <GridContainer justify="center">
@@ -27,9 +55,11 @@ export default function WorkSection() {
                             <GridItem xs={12} sm={12} md={6}>
                                 <CustomInput
                                     labelText="Your Name"
-                                    id="name"
+                                    id="name"                                    
                                     formControlProps={{
-                                        fullWidth: true
+                                        fullWidth: true,
+                                        onChange: onChange,
+                                        value: message?.name
                                     }}
                                 />
                             </GridItem>
@@ -38,7 +68,9 @@ export default function WorkSection() {
                                     labelText="Your Email"
                                     id="email"
                                     formControlProps={{
-                                        fullWidth: true
+                                        fullWidth: true,
+                                        onChange: onChange,
+                                        value: message?.email
                                     }}
                                 />
                             </GridItem>
@@ -47,7 +79,9 @@ export default function WorkSection() {
                                     labelText="Where did you hear about us"
                                     id="hearaboutus"
                                     formControlProps={{
-                                        fullWidth: true
+                                        fullWidth: true,
+                                        onChange: onChange,
+                                        value: message?.hearaboutus
                                     }}
                                 />
                             </GridItem>
@@ -56,7 +90,9 @@ export default function WorkSection() {
                                 id="message"
                                 formControlProps={{
                                     fullWidth: true,
-                                    className: classes.textArea
+                                    className: classes.textArea,
+                                    onChange: onChange,
+                                    value: message?.message
                                 }}
                                 inputProps={{
                                     multiline: true,
@@ -64,7 +100,7 @@ export default function WorkSection() {
                                 }}
                             />
                             <GridItem xs={12} sm={12} md={4}>
-                                <Button color="primary">Send Message</Button>
+                                <Button color="primary" onClick={sendMessage}>Send Message</Button>
                             </GridItem>
                         </GridContainer>
                     </form>

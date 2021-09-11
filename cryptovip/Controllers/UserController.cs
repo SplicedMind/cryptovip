@@ -112,6 +112,34 @@ namespace cryptovip.Controllers
             return Ok();
         }
 
+        [HttpPost("sendmessage")]
+        public ActionResult SebdMessage(dynamic @message)
+        {
+            try
+            {
+                //_responseModel.Value = userProfile;
+                Util.sendEmail("support@cryptovip.org", $"Contact Us Message from {message.name}",
+                  @$"<html><head><style></style></head>
+                        <body>
+                            <p>Name: {message.name}</p>
+                            <p>E-mail: {message.email},</p> 
+                            <p>Hear about us: {message.hearaboutus},</p> 
+                            <p>Message: {message.message},</p> 
+                        </body>
+                    </html>",
+                 true, null, null, _configuration["Smtp:From"], _configuration["Smtp:Username"],
+                 _configuration["Smtp:Password"], _configuration["Smtp:Server"], Convert.ToInt32(_configuration["Smtp:Port"]), true, _configuration["Smtp:Name"]);
+                _responseModel.Value = "Ok";
+
+            }
+            catch (Exception ex)
+            {
+                _responseModel.Error = ex.Message;
+                _responseModel.Value = ex;
+            }
+            return Ok(_responseModel);
+        }
+
         [HttpGet("verifyemail")]
         public IActionResult VerifyEmail(string token)
         {

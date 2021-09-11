@@ -28,10 +28,10 @@ export default function WithdrawFundsPage({form:{form, loading, error, isValid, 
                         <label htmlFor="address" className="form-label col-md-4">Address</label>
                         <input id="address" type="text" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.withdrawInfo}/>
                     </div>
-                    <div className="row mb-3">
-                        <label htmlFor="network" className="form-label col-md-4">Network</label>
-                        <input id="network" type="text" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.withdrawInfo}/>
-                    </div>
+                    {/*<div className="row mb-3">*/}
+                    {/*    <label htmlFor="network" className="form-label col-md-4">Network</label>*/}
+                    {/*    <input id="network" type="text" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.withdrawInfo}/>*/}
+                    {/*</div>*/}
                     <button type="submit" onClick={onClick} className="btn btn-success btn-sm offset-md-4" disabled={!isValid || (isValid && form.withdrawInfo)}>Withdraw</button>
                 </form>
             </div>
