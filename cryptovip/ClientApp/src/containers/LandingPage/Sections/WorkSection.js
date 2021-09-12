@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -9,6 +9,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
+import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 import axiosInstance from "helpers/axiosInstance";
@@ -18,35 +19,64 @@ const useStyles = makeStyles(styles);
 
 export default function WorkSection() {
     const classes = useStyles();
-
-    const [message, setMessage] = useState({});
+    let messageSent = false;
+    const [message, setMessage] = useState({
+        name: "test",
+        email: "",
+        hearaboutus: "",
+        message: ""
+    });
+    const [sent, setSent] = useState(false);
 
     const onChange = (e) => {
         setMessage({ ...message, [e.target.id]: e.target.value });
     }
 
     const sendMessage = () => {
-        debugger
         axiosInstance()
             .post('user/sendmessage', message)
             .then((res) => {
-
-                if (res.data.success) {
-                   
-                }
-                else {
-                    
-                }
+                debugger;
+                setSent(true);
             })
             .catch((err) => {
-                console.log('err', err)
-                
+                debugger;
+                messageSent = true;
             });
+        
     }
 
+    //useEffect(() => {
+    //    debugger;
+    //    if (sent) {
+    //        setMessage({
+    //            name: "",
+    //            email: "",
+    //            hearaboutus: "",
+    //            message: ""
+    //        });
+    //        setSent(false);
+    //    }
+    //}, [sent])
+
+    debugger
     return (
         <div id='contact' className={classes.section}>
             <GridContainer justify="center">
+                {                    
+                    sent && <SnackbarContent
+                        message={
+                            <span>
+                                <b>Success:</b> {
+                                    ` We've got your message and will get in touch with you.`
+                                }
+                            </span>
+                        }
+                        close
+                        color="success"
+                        icon="info_outline"
+                    />
+                }
                 <GridItem cs={12} sm={12} md={8}>
                     <h2 className={classes.title}>Get in touch</h2>
                     <h4 className={classes.description}>Please fill in your details</h4>
