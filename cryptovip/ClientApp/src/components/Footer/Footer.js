@@ -27,6 +27,9 @@ export default function Footer(props) {
                     <div>
                         E-mail: <a href="mailto:support@cryptovip.org" rel="noopener noreferrer" style={{ textTransform: "lowercase" }}>support@cryptovip.org</a>
                     </div>
+                    <div>
+                        <a href="tel:(213)-5599-409" rel="noopener noreferrer">(213)-559-9409</a>
+                    </div>
                 </div>
             </div>
             <div className={classes.container}>
@@ -36,14 +39,6 @@ export default function Footer(props) {
                         &copy; {1900 + new Date().getYear()}  Crypto Vault Investment Platform
                     </Link>
                 </div>
-
-                <div>
-                    Telephone: <a href="tel:+2135599409" rel="noopener noreferrer">(+213)559-9409</a>
-                </div>
-            </div>
-
-
-            <div className={classes.container}>
                 <Link
                     to="/privacypolicy" rel="noopener noreferrer"
                     className={classes.block}
@@ -51,9 +46,8 @@ export default function Footer(props) {
                 >
                     Privacy Policy
                 </Link>
+                
             </div>
-
-            
         </footer>
     );
 }
