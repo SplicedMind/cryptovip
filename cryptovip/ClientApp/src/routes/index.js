@@ -8,6 +8,7 @@ import TermsConditions from "containers/TermsCondition/TermsCondition";
 import PrivacyPolicy from "containers/PrivacyPolicy/PrivacyPolicy";
 import WithdrawFundsPage from "containers/WithdrawFundsPage/index";
 import TransactionsPage from "containers/TransactionsPage/index";
+import TransactionNotificationPage from "containers/TransactionNotificationPage/index";
 import EWalletPage from "containers/EWalletPage/index";
 
 const routes = [    
@@ -22,6 +23,13 @@ const routes = [
         path: "/dashboard/withdrawfunds",
         component: WithdrawFundsPage,
         title: "Withdraw Funds",
+        needsAuth:true,
+        needsAdmin:false
+    },
+    {
+        path: "/dashboard/paymentnotification",
+        component: TransactionNotificationPage,
+        title: "Payment Notification",
         needsAuth:true,
         needsAdmin:false
     },

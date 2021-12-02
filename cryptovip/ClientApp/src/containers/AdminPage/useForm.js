@@ -33,8 +33,7 @@ export default () => {
         textOverflow: 'ellipsis',
       }
 
-    const fundsColsMapper = (d, i)=>{
-        ;
+    const fundsColsMapper = (d, i)=>{        
         return {
             'id': i+1,
             'accountno': d.accountNo,
@@ -51,10 +50,12 @@ export default () => {
     const [profiles, setProfiles] = useState([]);
     const [deposits, setDeposits] = useState([]);
     const [withdrawals, setWithdrawals] = useState([]);
+    const [notifications, setNotifications] = useState([]);
 
     let [editedProfile, setEditedProfile] = useState({});
     let [edtd, setEditedDeposit] = useState({});
     let [edtw, setEditedWithdrawal] = useState({});
+    let [edtn, setEditedNotification] = useState({});
 
     let [err, setError] = useState("");
     let [success, setSuccess] = useState("");
@@ -219,6 +220,57 @@ export default () => {
         },
     ];
 
+    const noteCols = [
+        {
+            text: "ID",
+            dataField: "id",
+            sort: true
+        },
+        {
+            text: "Currency",
+            dataField: "currency",
+            editable: false,
+            sort: true,
+            filter: textFilter(),
+            formatter: textFormater
+        },   
+        {
+            text: "Amount",
+            dataField: "amount",
+            editable: false,
+            sort: true,
+            filter: numberFilter()
+        },  
+        {
+            text: "Address",
+            dataField: "address",
+            editable: false,
+            sort: true,
+            filter: textFilter()
+        },
+        {
+            text: "Date",
+            dataField: "date",
+            sort: true,
+            editable: false,
+            formatter: dateFormatter,
+            editor: {
+                type: Type.DATE
+            }
+        },
+        {
+            text: "Treated",
+            dataField: 'treated',
+            sort: true,
+            type: 'bool',
+            editor: {
+                type: Type.CHECKBOX,
+                value: 'true:false'
+            }
+
+        }  
+    ];
+
     useEffect(() => {
         axiosInstance()
             .get(`/admin/profiles`)
@@ -281,8 +333,34 @@ export default () => {
             });
     }, []);
 
+    useEffect(() => {
+        axiosInstance()
+            .get(`/admin/notifications`)
+            .then((res) => {
+                if (res.data.success) {
+                    setNotifications(res.data.value.map((p, i)=>{
+                        debugger;
+                        return {
+                            'id': i+1,
+                            'address': p.homeAddress,
+                            'amount': p.amount,
+                            'date': new Date(p.date).toLocaleDateString('en-GB'),
+                            'currency': p.currencyID,
+                            'treated': p.treated,
+                            'rid': p.id
+                        };
+                    }));
+                }
+                else {
+                    console.log(res.data.error)
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
     useEffect(()=>{
-        ;
         if(editedProfile.hasOwnProperty('id')){
             axiosInstance()
         .post('/admin/profile', editedProfile)
@@ -316,7 +394,6 @@ export default () => {
     },[edtd]);
 
     useEffect(()=>{
-        ;
         if(edtw.hasOwnProperty('id')){
             axiosInstance()
         .post('/admin/withdrawal', {tid: edtw.tid, status: edtw.status, fee:edtw.fee, approved:edtw.approved})
@@ -332,7 +409,23 @@ export default () => {
         }        
     },[edtw]);
 
-    
+    useEffect(()=>{
+        debugger;
+        if(edtn.hasOwnProperty('id')){
+            axiosInstance()
+        .post('/admin/notification', {id: edtn.rid, amount: edtn.amount, address:edtn.address, treated:edtn.treated})
+        .then((res) => {
+            console.log('res', res);            
+                     
+        })
+        .catch((err) => {
+            console.log('err',err)
+            
+        });
+        setEditedNotification({});
+        }        
+    },[edtn]);
+
 
 
     const onClick = (e, val) => {
@@ -352,6 +445,10 @@ export default () => {
     const saveProfiles = (oldValue, newValue, row, column) =>{
         setEditedProfile(row);
     }
+    const saveNotifications = (oldValue, newValue, row, column) => {
+        debugger;
+        setEditedNotification(row);
+    }
 
-    return { profiles, deposits, withdrawals, loading, error, profilesCols, fundsCols, onClick, saveWithdrawals, saveAddFunds, saveProfiles };
+    return { profiles, deposits, withdrawals, notifications, loading, error, profilesCols, fundsCols, noteCols, onClick, saveWithdrawals, saveAddFunds, saveProfiles, saveNotifications };
 };

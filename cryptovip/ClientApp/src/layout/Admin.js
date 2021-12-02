@@ -5,7 +5,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import filterFactory from 'react-bootstrap-table2-filter';
 
-export default function AdminPage({form:{loading, profiles, deposits, withdrawals, error, profilesCols, fundsCols, onClick, saveWithdrawals, saveAddFunds, saveProfiles}}) {
+export default function AdminPage({form:{loading, profiles, deposits, withdrawals, notifications, error, profilesCols, fundsCols, noteCols, onClick, saveWithdrawals, saveAddFunds, saveProfiles, saveNotifications}}) {
     
     return (
     <ProfileLayout>
@@ -25,6 +25,9 @@ export default function AdminPage({form:{loading, profiles, deposits, withdrawal
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link  eventKey="withdrawfunds">Withdraw Funds</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link  eventKey="transactionnotification">Tranaction Notification</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>                    
@@ -79,6 +82,23 @@ export default function AdminPage({form:{loading, profiles, deposits, withdrawal
                                         mode: 'dbclick',
                                         blurToSave: true,
                                         afterSaveCell: saveWithdrawals
+                                    }) }
+                                    filter={ filterFactory() }
+                                />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="transactionnotification">
+                                <BootstrapTable 
+                                    keyField='id' 
+                                    data={notifications} 
+                                    columns= {noteCols} 
+                                    bootstrap4={true} 
+                                    striped
+                                    hover
+                                    condensed 
+                                    cellEdit={ cellEditFactory({
+                                        mode: 'dbclick',
+                                        blurToSave: true,
+                                        afterSaveCell: saveNotifications
                                     }) }
                                     filter={ filterFactory() }
                                 />

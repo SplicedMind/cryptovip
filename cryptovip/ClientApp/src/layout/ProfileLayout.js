@@ -63,6 +63,9 @@ export default function ProfileLayout(props) {
                                     <Link to="/dashboard/withdrawfunds" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
                                         Withdraw Funds
                                     </Link>
+                                    <Link to="/dashboard/paymentnotification" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
+                                        Payment Notification
+                                    </Link>
                                     <Link to="/dashboard/transactions" style={{color:'purple'}} className="btn btn-sm list-group-item" role="button" aria-pressed="true">
                                         Transactions
                                     </Link>

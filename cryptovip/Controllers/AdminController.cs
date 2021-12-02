@@ -138,5 +138,40 @@ namespace cryptovip.Controllers
             }
             return Ok(_responseModel);
         }
+
+        [HttpGet("notifications")]
+        public IActionResult Notifications()
+        {
+            try
+            {
+                _responseModel.Value = _context.GetPaymentNotifications();
+            }
+            catch (Exception ex)
+            {
+                _responseModel.Error = ex.Message;
+                _responseModel.Value = ex;
+            }
+            return Ok(_responseModel);
+        }
+
+        [HttpPost("notification")]
+        public IActionResult Notification(PaymentNotificationModel pnm)
+        {
+            try
+            {
+                var note = _context.GetPaymentNotification(pnm.ID);
+                note.Treated = pnm.Treated;
+
+                _context.Entry(note).State = EntityState.Modified;
+                _context.SaveChanges();
+                _responseModel.Value = note;
+            }
+            catch (Exception ex)
+            {
+                _responseModel.Error = ex.Message;
+                _responseModel.Value = ex;
+            }
+            return Ok(_responseModel);
+        }
     }
 }

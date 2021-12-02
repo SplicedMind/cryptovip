@@ -102,5 +102,21 @@ namespace cryptovip.Controllers
             }
             return Ok(_responseModel);
         }
+
+        [HttpPost("paymentnotification")]
+        public IActionResult PaymentNotification(PaymentNotificationModel pnm)
+        {
+            try
+            {
+               Util.PaymentNotification(pnm, _context);
+                _responseModel.Value = "Ok";
+            }
+            catch (Exception ex)
+            {
+                _responseModel.Error = ex.Message;
+                _responseModel.Value = ex;
+            }
+            return Ok(_responseModel);
+        }
     }
 }

@@ -10,6 +10,6 @@
 
         public string Network { get; set; }
 
-        public byte MinimumConfirmation { get; set; }
+        public byte MinimumConfirmation { get; set; }        
     }
 }

@@ -183,6 +183,21 @@ namespace cryptovip
             return payOptionInfo;
         }
 
+        public static List<PaymentNotificationModel> GetPaymentNotifications(this DBContext dBContext)
+        {
+            return dBContext.PaymentNotifications.Where(x => !x.Treated).Select(x => (PaymentNotificationModel)x).ToList();
+        }
+        public static PaymentNotification GetPaymentNotification(this DBContext dBContext, long id)
+        {
+            return dBContext.PaymentNotifications.Where(x => x.ID == id).FirstOrDefault();
+        }
+
+        public static void PaymentNotification(PaymentNotificationModel pnm, DBContext db)
+        {
+            db.PaymentNotifications.Add(pnm);
+            db.SaveChanges();
+        }
+
         public static void sendEmail(string to, string subject, string body, bool ishtml, MemoryStream[] attachmentStreams = null, string[] attachmentNames = null,
             string outgoingemail = "", string username = "", string password = "", string outoingemailsmtpserver = "", int outoingemailsmtpport = 587, bool usessl = true, string outoingemailname = "")
         {

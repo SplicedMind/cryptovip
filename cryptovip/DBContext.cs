@@ -45,10 +45,11 @@ namespace cryptovip
 
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<PaymentOption> PaymentOptions { get; set; }
         public DbSet<SecurityQuestion> SecurityQuestions { get; set; }
+        public DbSet<PaymentNotification> PaymentNotifications { get; set; }
         public DbSet<UserSecurityQuestionAnswer> UserSecurityQuestionAnswers { get; set; }
     }
 }
