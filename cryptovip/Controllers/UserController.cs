@@ -118,7 +118,7 @@ namespace cryptovip.Controllers
             try
             {
                 //_responseModel.Value = userProfile;
-                Util.sendEmail("support@cryptovip.org", $"Contact Us Message from {message.name}",
+                Util.sendEmail("support@cryptovault.pro", $"Contact Us Message from {message.name}",
                   @$"<html><head><style></style></head>
                         <body>
                             <p>Name: {message.name}</p>
@@ -148,11 +148,11 @@ namespace cryptovip.Controllers
             {
                 email = ValidateEmailToken(token).FindFirstValue("username");
                 Util.VerifyEmail(email, _context);
-                return base.Redirect($"https://cryptovip.org/login?verified?{email}");
+                return base.Redirect($"https://cryptovault.pro/login?verified?{email}");
             }
             catch
             {
-                return base.Redirect($"https://cryptovip.org/login?failed?{email}");
+                return base.Redirect($"https://cryptovault.pro/login?failed?{email}");
             }
         }
 
