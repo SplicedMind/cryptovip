@@ -40,7 +40,7 @@ export default function AddFundsPage({ form: { form, loading, error, isCopied, i
                             <div className="col-md-8">
                                 <p>Send the desired amount to the address below. </p>
                                 <div className="form-group">
-                                    <label className="form-label">Address</label>
+                                    <label className="form-label">Wallet Address</label>
                                     <div className="form-control">
                                         <input style={{ border: '0px', width: '90%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }} value={form.fundsData.address} readOnly />
 

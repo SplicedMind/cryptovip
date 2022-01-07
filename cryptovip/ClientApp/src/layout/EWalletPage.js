@@ -41,6 +41,7 @@ export default function EWalletPage({form:{form, loading, error, isValid, onChan
                         <li>Click on "Next button".</li>
                         <li>Copy the displayed crypto wallet address.</li>
                         <li>Transfer the desired amount from your wallet to the address.</li>
+                        <li>Fill paymenty notification form after each succesful payment.</li>
                     </ol>
                 {/* <p>
                     Note:
