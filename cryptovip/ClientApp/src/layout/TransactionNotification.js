@@ -54,7 +54,7 @@ export default function TransactionsNotification({form:{form, tState, isValid, o
                             <input type="number" id="amount" className="form-control col-md-8" autoComplete="off" onChange={onChange} />
                         </div>
                         <div className="row mb-3">
-                            <label htmlFor="address" className="form-label col-md-4">Address</label>
+                            <label htmlFor="address" className="form-label col-md-4">Wallet Address</label>
                             <input type="text" id="address" className="form-control col-md-8" autoComplete="off" onChange={onChange} />
                         </div>
                         <div className="row mb-3">

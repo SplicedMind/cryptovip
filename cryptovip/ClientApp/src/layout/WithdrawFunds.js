@@ -25,7 +25,7 @@ export default function WithdrawFundsPage({form:{form, loading, error, isValid, 
                         <input type="number" id="amount" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.withdrawInfo}/>
                     </div>
                     <div className="row mb-3">
-                        <label htmlFor="address" className="form-label col-md-4">Address</label>
+                        <label htmlFor="address" className="form-label col-md-4">Wallet Address</label>
                         <input id="address" type="text" className="form-control col-md-8" autoComplete="off" onChange={onChange} disabled={form.withdrawInfo}/>
                     </div>
                     {/*<div className="row mb-3">*/}
